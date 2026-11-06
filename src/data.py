@@ -304,21 +304,86 @@ def formation_missing_fraction(
     return 1.0 - window.notna().sum() / len(window)
 
 
+# --------------------------------------------------------------------------
+# the staleness rule (flat runs of >= 10 identical closes)
+# --------------------------------------------------------------------------
+
+
+def flat_run_length(prices: pd.DataFrame) -> pd.DataFrame:
+    """For each stock and day d: the length of the run of identical closes ending at d.
+
+    Causal by construction - the value at day d counts backwards from d and never
+    forwards, so a run still in progress at d is reported at its length so far.
+
+    Runs are counted over observed prices only, so a one-day gap in the middle of
+    a flat stretch does not reset the count. That is the conservative choice: it
+    catches more staleness, not less.
+    """
+    out = pd.DataFrame(index=prices.index, columns=prices.columns, dtype="float64")
+    for col in prices.columns:
+        s = prices[col].dropna()
+        if s.empty:
+            continue
+        run_id = s.ne(s.shift()).cumsum()
+        out[col] = s.groupby(run_id).cumcount().add(1).reindex(prices.index)
+    return out
+
+
+def stale_in_window(
+    runs: pd.DataFrame,
+    start: pd.Timestamp,
+    end: pd.Timestamp,
+    min_run: int = cfg.MAX_FLAT_RUN_DAYS,
+    strict_containment: bool = False,
+) -> pd.Series:
+    """True for each stock whose formation window [start, end] is hit by a flat run.
+
+    `runs` comes from flat_run_length(). Taking the maximum run length over the
+    days inside the window finds the longest run that *intersects* the window:
+    for a run that ends inside the window that maximum is the run's full length,
+    and for a run still going at `end` it is its length so far. Either way only
+    data up to `end` is used.
+
+    With strict_containment=True the run must fit entirely inside the window
+    instead, which is reported alongside for comparison but is not the rule.
+    """
+    window = runs.loc[start:end]
+    if window.empty:
+        return pd.Series(False, index=runs.columns)
+    if strict_containment:
+        capped = window.clip(upper=len(window))
+        return (capped.max() >= min_run).fillna(False)
+    return (window.max() >= min_run).fillna(False)
+
+
 def eligible_at(
-    cleaned: CleanedData, as_of: pd.Timestamp, formation_start: pd.Timestamp
+    cleaned: CleanedData,
+    as_of: pd.Timestamp,
+    formation_start: pd.Timestamp,
+    formation_end: pd.Timestamp | None = None,
+    runs: pd.DataFrame | None = None,
 ) -> pd.Index:
     """Tickers usable for a portfolio formed at `as_of`.
 
-    Three filters, all causal:
+    Four filters, all causal:
       * at least 252 trading days of history by `as_of`;
       * no more than 5% of the formation window missing;
+      * no flat run of >= 10 identical closes intersecting the formation window;
       * a price exists on `as_of`, so the position can actually be entered.
     """
     as_of = pd.Timestamp(as_of)
+    formation_start = pd.Timestamp(formation_start)
+    formation_end = as_of if formation_end is None else pd.Timestamp(formation_end)
+
     has_history = cleaned.eligible.loc[:as_of].iloc[-1]
-    missing = formation_missing_fraction(cleaned.prices, formation_start, as_of)
+    missing = formation_missing_fraction(cleaned.prices, formation_start, formation_end)
     tradable = cleaned.prices.loc[:as_of].iloc[-1].notna()
-    keep = has_history & (missing <= cfg.MAX_MISSING_FRACTION) & tradable
+
+    if runs is None:
+        runs = flat_run_length(cleaned.prices.loc[:formation_end])
+    stale = stale_in_window(runs, formation_start, formation_end)
+
+    keep = has_history & (missing <= cfg.MAX_MISSING_FRACTION) & tradable & ~stale
     return cleaned.prices.columns[keep.to_numpy()]
 
 

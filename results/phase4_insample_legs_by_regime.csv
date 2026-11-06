@@ -1,0 +1,19 @@
+strategy,regime,leg,n_periods,ann_return_pct,ann_vol_pct,sharpe
+Momentum (long-short),high-vol,long leg,25,13.78,17.65,0.82
+Momentum (long-short),high-vol,short leg,25,42.26,37.16,1.127
+Momentum (long-short),high-vol,spread (long-short),25,-27.52,28.29,-0.968
+Momentum (long-short),low-vol,long leg,95,30.38,17.29,1.635
+Momentum (long-short),low-vol,short leg,95,8.6,19.21,0.525
+Momentum (long-short),low-vol,spread (long-short),95,17.74,18.79,0.968
+Momentum (long-short),all,long leg,120,26.73,17.37,1.462
+Momentum (long-short),all,short leg,120,14.89,24.16,0.691
+Momentum (long-short),all,spread (long-short),120,6.42,21.66,0.401
+Reversal (long-short),high-vol,long leg,115,37.0,24.2,1.424
+Reversal (long-short),high-vol,short leg,115,-1.55,18.61,0.008
+Reversal (long-short),high-vol,spread (long-short),115,38.09,19.85,1.728
+Reversal (long-short),low-vol,long leg,406,29.92,17.81,1.562
+Reversal (long-short),low-vol,short leg,406,7.74,16.02,0.546
+Reversal (long-short),low-vol,spread (long-short),406,19.56,15.43,1.236
+Reversal (long-short),all,long leg,521,31.45,19.38,1.511
+Reversal (long-short),all,short leg,521,5.62,16.61,0.412
+Reversal (long-short),all,spread (long-short),521,23.43,16.51,1.359

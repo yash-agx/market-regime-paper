@@ -192,10 +192,36 @@ def main() -> None:
     boot = boot[cols]
     boot.to_csv(cfg.RESULTS_DIR / f"phase4_{tag}_bootstrap.csv", index=False)
 
+    print("Block lengths are chosen by the Politis-White (2004) automatic rule,")
+    print("applied to the returns AND the regime dummy, taking the longer. The")
+    print("dummy is what drives it: returns are near white noise, regimes are not.\n")
     print("MAIN (Method A):\n")
     print(boot[boot["regime_method"] == "A: realised vol (main)"]
           [["cost", "hypothesis", "observed", "ci95_low", "ci95_high",
-            "p_one_sided", "n_valid_resamples"]].to_string(index=False))
+            "p_one_sided", "mean_block", "n_valid_resamples"]].to_string(index=False))
+
+    # ---- multiple testing --------------------------------------------------
+    bonf = 0.05 / 3
+    print(f"\n\nMultiple testing: three hypotheses are tested, so the Bonferroni")
+    print(f"threshold is 0.05/3 = {bonf:.4f}. Against that:\n")
+    main_boot = boot[(boot["regime_method"] == "A: realised vol (main)")
+                     & (boot["cost"] == "20bps")]
+    mt_rows = []
+    for _, row in main_boot.iterrows():
+        survives = (row["p_one_sided"] < bonf) if pd.notna(row["p_one_sided"]) else False
+        mt_rows.append({
+            "hypothesis": row["hypothesis"],
+            "p_one_sided": row["p_one_sided"],
+            "bonferroni_threshold": round(bonf, 4),
+            "survives_bonferroni": survives,
+        })
+        verdict = "SURVIVES" if survives else "does not survive"
+        print(f"  {row['hypothesis']}: p = {row['p_one_sided']:.4f}  ->  {verdict}")
+    pd.DataFrame(mt_rows).to_csv(
+        cfg.RESULTS_DIR / f"phase4_{tag}_multiple_testing.csv", index=False)
+    print("\n  Note that H3 = H1 + H2 arithmetically, so the three tests are not")
+    print("  independent and Bonferroni is conservative here. H1 is the result")
+    print("  that stands on its own.")
     print("\n\nRobustness across regime definitions:\n")
     print(boot[["regime_method", "cost", "hypothesis", "observed",
                 "p_one_sided", "n_valid_resamples"]].to_string(index=False))
@@ -205,12 +231,24 @@ def main() -> None:
     # main test is repeated across a range of it. If H1 only survives at one
     # block length, it is an artefact of that choice.
     sens_rows = []
-    n_mom = len(excess["momentum_ls"][20].dropna())
-    n_rev = len(excess["reversal_ls"][20].dropna())
-    for mult, tag_m in ((0.5, "half"), (1.0, "default n^(1/3)"), (2.0, "double"),
-                        (4.0, "quadruple")):
-        bm = max(2, round(E.default_block(n_mom) * mult))
-        br = max(2, round(E.default_block(n_rev) * mult))
+    mom_r = excess["momentum_ls"][20].dropna()
+    rev_r = excess["reversal_ls"][20].dropna()
+    pw_mom = E.politis_white_block(
+        mom_r, labels["high_vol_a"].reindex(mom_r.index).astype("float64"))
+    pw_rev = E.politis_white_block(
+        rev_r, labels["high_vol_a"].reindex(rev_r.index).astype("float64"))
+    settings = [
+        (pw_mom * 0.5, pw_rev * 0.5, "half of Politis-White"),
+        (pw_mom, pw_rev, "Politis-White (used in main tables)"),
+        (pw_mom * 2, pw_rev * 2, "double Politis-White"),
+        (pw_mom * 4, pw_rev * 4, "quadruple Politis-White"),
+        (E.default_block(len(mom_r)), E.default_block(len(rev_r)),
+         "old n^(1/3) rule of thumb"),
+    ]
+    for bm_raw, br_raw, tag_m in settings:
+        # Keep the fractional block, so the Politis-White row reproduces the
+        # main table exactly rather than a rounded-off version of it.
+        bm, br = max(2.0, round(bm_raw, 2)), max(2.0, round(br_raw, 2))
         h1 = E.bootstrap_sharpe_gap(
             excess["momentum_ls"][20], labels["high_vol_a"], cfg.MONTHS_PER_YEAR,
             "H1", favour="low", mean_block=bm)

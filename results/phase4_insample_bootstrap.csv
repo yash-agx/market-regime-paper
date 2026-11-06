@@ -1,19 +1,19 @@
 regime_method,cost,hypothesis,observed,ci95_low,ci95_high,p_one_sided,n_valid_resamples,mean_block,note
-A: realised vol (main),gross,H1,1.9368,0.8425,3.0206,0.0018,10000,5,
-A: realised vol (main),gross,H2,0.4922,-0.9195,2.0338,0.2444,10000,8,
-A: realised vol (main),gross,H3,2.429,0.7173,4.4666,0.0036,10000,5,resampled over calendar months to keep the two strategies aligned
-A: realised vol (main),20bps,H1,1.8936,0.8259,2.9843,0.0017,10000,5,
-A: realised vol (main),20bps,H2,0.9187,-0.5007,2.4133,0.099,10000,8,
-A: realised vol (main),20bps,H3,2.8122,1.0442,4.8141,0.0016,10000,5,resampled over calendar months to keep the two strategies aligned
-VIX (main robustness),gross,H1,2.2933,1.2611,3.9096,0.0012,10000,5,
-VIX (main robustness),gross,H2,0.1805,-1.2679,1.7142,0.3929,10000,8,
-VIX (main robustness),gross,H3,2.4738,0.8298,4.8768,0.0029,10000,5,resampled over calendar months to keep the two strategies aligned
-VIX (main robustness),20bps,H1,2.2358,1.2258,3.8837,0.0011,10000,5,
-VIX (main robustness),20bps,H2,0.6586,-0.8522,2.1401,0.1878,10000,8,
-VIX (main robustness),20bps,H3,2.8944,1.1427,5.3981,0.0017,10000,5,resampled over calendar months to keep the two strategies aligned
-B: HMM (underpowered),gross,H1,,,,,0,5,10000 resamples dropped for having under 3 periods in a regime
-B: HMM (underpowered),gross,H2,-0.8842,-4.9469,5.5672,0.6655,9790,8,210 resamples dropped for having under 3 periods in a regime
-B: HMM (underpowered),gross,H3,,,,,0,5,resampled over calendar months to keep the two strategies aligned; 10000 resamples dropped for a near-empty regime
-B: HMM (underpowered),20bps,H1,,,,,0,5,10000 resamples dropped for having under 3 periods in a regime
-B: HMM (underpowered),20bps,H2,-0.1444,-4.5718,5.1728,0.5352,9790,8,210 resamples dropped for having under 3 periods in a regime
-B: HMM (underpowered),20bps,H3,,,,,0,5,resampled over calendar months to keep the two strategies aligned; 10000 resamples dropped for a near-empty regime
+A: realised vol (main),gross,H1,1.9368,0.6574,3.1438,0.0043,10000,2.33,
+A: realised vol (main),gross,H2,0.4922,-0.9089,2.1412,0.2425,10000,18.4,
+A: realised vol (main),gross,H3,2.429,0.6631,4.4214,0.0041,10000,4.36,resampled over calendar months to keep the two strategies aligned
+A: realised vol (main),20bps,H1,1.8936,0.646,3.0972,0.0042,10000,2.33,
+A: realised vol (main),20bps,H2,0.9187,-0.4796,2.4995,0.1024,10000,18.4,
+A: realised vol (main),20bps,H3,2.8122,0.9877,4.7836,0.002,10000,4.36,resampled over calendar months to keep the two strategies aligned
+VIX (main robustness),gross,H1,2.2933,0.8494,3.9762,0.0046,10000,2.17,
+VIX (main robustness),gross,H2,0.1805,-1.1535,1.6117,0.3766,10000,16.17,
+VIX (main robustness),gross,H3,2.4738,0.6964,4.8752,0.0052,10000,4.01,resampled over calendar months to keep the two strategies aligned
+VIX (main robustness),20bps,H1,2.2358,0.8177,3.9457,0.0046,10000,2.17,
+VIX (main robustness),20bps,H2,0.6586,-0.7405,2.0447,0.16,10000,16.17,
+VIX (main robustness),20bps,H3,2.8944,1.0263,5.3811,0.0028,10000,4.01,resampled over calendar months to keep the two strategies aligned
+B: HMM (underpowered),gross,H1,,,,,0,2.0,10000 resamples dropped for having under 3 periods in a regime
+B: HMM (underpowered),gross,H2,-0.8842,-5.1704,5.8059,0.66,9809,5.78,191 resamples dropped for having under 3 periods in a regime
+B: HMM (underpowered),gross,H3,,,,,0,2.0,resampled over calendar months to keep the two strategies aligned; 10000 resamples dropped for a near-empty regime
+B: HMM (underpowered),20bps,H1,,,,,0,2.0,10000 resamples dropped for having under 3 periods in a regime
+B: HMM (underpowered),20bps,H2,-0.1444,-4.8275,5.3852,0.5286,9809,5.78,191 resamples dropped for having under 3 periods in a regime
+B: HMM (underpowered),20bps,H3,,,,,0,2.0,resampled over calendar months to keep the two strategies aligned; 10000 resamples dropped for a near-empty regime

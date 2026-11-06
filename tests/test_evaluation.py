@@ -100,6 +100,39 @@ def test_default_block_follows_the_cube_root_rule():
     assert E.default_block(1) == 2       # floored
 
 
+def test_politis_white_gives_longer_blocks_for_a_persistent_series():
+    rng = np.random.default_rng(4)
+    n = 600
+    noise = rng.normal(0, 1, n)
+    persistent = np.zeros(n)
+    for t in range(1, n):
+        persistent[t] = 0.9 * persistent[t - 1] + noise[t]
+    assert E.politis_white_block(persistent) > E.politis_white_block(noise)
+
+
+def test_politis_white_takes_the_longest_of_several_series():
+    """Returns are near white noise; the regime dummy is not. The dummy must win."""
+    rng = np.random.default_rng(6)
+    n = 600
+    white = rng.normal(0, 1, n)
+    sticky = np.repeat(rng.random(n // 20) < 0.3, 20).astype(float)
+    both = E.politis_white_block(white, sticky)
+    assert both == pytest.approx(max(E.politis_white_block(white),
+                                     E.politis_white_block(sticky)))
+    assert both > E.politis_white_block(white)
+
+
+def test_politis_white_is_floored_at_two_periods():
+    rng = np.random.default_rng(8)
+    assert E.politis_white_block(rng.normal(0, 1, 500)) >= 2.0
+
+
+def test_politis_white_ignores_a_degenerate_series():
+    rng = np.random.default_rng(9)
+    good = rng.normal(0, 1, 400)
+    assert E.politis_white_block(good, np.ones(400)) == E.politis_white_block(good)
+
+
 # --------------------------------------------------------------------------
 # the hypothesis statistics
 # --------------------------------------------------------------------------

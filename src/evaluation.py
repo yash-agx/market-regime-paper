@@ -167,8 +167,37 @@ def stationary_bootstrap_indices(
 
 
 def default_block(n: int) -> int:
-    """n^(1/3), the usual rule of thumb, floored at 2 periods."""
+    """n^(1/3), the old rule of thumb. Kept only for the sensitivity table."""
     return max(2, int(round(n ** (1 / 3))))
+
+
+def politis_white_block(*series: pd.Series | np.ndarray) -> float:
+    """Politis and White (2004) automatic block length, for the stationary bootstrap.
+
+    Given several series, the LONGEST of their optimal blocks is returned, and
+    here that matters a great deal. Strategy returns are close to white noise,
+    so the rule applied to returns alone suggests blocks under one period -
+    effectively an ordinary iid bootstrap. But the quantity being tested is a
+    difference BETWEEN REGIMES, and the regime label is strongly
+    autocorrelated: high-volatility periods arrive in episodes. Resampling with
+    a sub-period block would shatter that clustering and make the regime
+    difference look far better determined than it is.
+
+    So the regime dummy is passed in alongside the returns, and the block is
+    long enough to keep whichever series is the most persistent intact.
+    """
+    from arch.bootstrap import optimal_block_length
+
+    best = 1.0
+    for s in series:
+        a = np.asarray(s, dtype="float64")
+        a = a[np.isfinite(a)]
+        if len(a) < 10 or a.std() == 0:
+            continue
+        b = float(optimal_block_length(a)["stationary"].iloc[0])
+        if np.isfinite(b):
+            best = max(best, b)
+    return max(2.0, round(best, 2))
 
 
 @dataclass
@@ -241,7 +270,7 @@ def bootstrap_sharpe_gap(
     hi = df["high"].to_numpy(dtype=bool)
     n = len(r)
     if mean_block is None:
-        mean_block = default_block(n)
+        mean_block = politis_white_block(r, hi.astype("float64"))
 
     def stat(rv: np.ndarray, hv: np.ndarray) -> float:
         a, b = rv[~hv], rv[hv]
@@ -310,7 +339,18 @@ def bootstrap_difference_in_differences(
 
     n = len(months)
     if mean_block is None:
-        mean_block = default_block(n)
+        # Blocks are months here, so the block length is chosen on monthly
+        # series: momentum's own returns, reversal compounded to monthly, and
+        # the monthly regime dummy.
+        mom_m = np.array([p[0][0].sum() if len(p[0][0]) else np.nan for p in packs])
+        rev_m = np.array([np.prod(1 + p[1][0]) - 1 if len(p[1][0]) else np.nan
+                          for p in packs])
+        dum_m = np.array([
+            np.nanmean(np.concatenate([p[0][1], p[1][1]]).astype("float64"))
+            if (len(p[0][1]) + len(p[1][1])) else np.nan
+            for p in packs
+        ])
+        mean_block = politis_white_block(mom_m, rev_m, dum_m)
     observed = stat_from_months(np.arange(n))
     rng = np.random.default_rng(seed)
     idx = stationary_bootstrap_indices(n, mean_block, n_boot, rng)

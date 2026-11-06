@@ -26,3 +26,6 @@ data/processed/*
 Thumbs.db
 .vscode/
 .idea/
+
+# Cached NSE press release PDFs (re-downloadable by the Phase 5a script)
+data/raw/press_releases/

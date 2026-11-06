@@ -37,7 +37,10 @@ VIX_TICKER = "^INDIAVIX"      # India VIX
 MIN_HISTORY_DAYS = 252        # a stock is eligible only after 252 trading days
 MAX_MISSING_FRACTION = 0.05   # drop a stock for a period if >5% of its formation window is missing
 MAX_FLAT_RUN_DAYS = 10        # drop a stock for a window hit by a run of >=10 identical closes
-EXTREME_RETURN = 0.50         # flag (never delete) daily returns beyond +/-50%
+EXTREME_RETURN = 0.25         # flag (never delete) daily returns beyond +/-25%
+# Lowered from 0.50 in Phase 5. Both unadjusted demergers in the data sit
+# between 38% and 41% - a 50% threshold saw neither of them, and the Adani
+# Enterprises one had already reached the in-sample portfolios.
 
 # --- conventions -----------------------------------------------------------
 TRADING_DAYS = 252

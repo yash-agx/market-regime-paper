@@ -399,8 +399,11 @@ def build_name_symbol_map(urls: list[str]) -> dict[str, tuple[str, str]]:
     """
     out: dict[str, tuple[str, str]] = {}
     for url in urls:
+        # The fast extractor is enough here: pairing a name with the symbol on
+        # the SAME line does not depend on the reading order between lines,
+        # and the coordinate-based path is far too slow over 1300 documents.
         try:
-            text = fetch_pdf_layout_text(url)
+            text = fetch_pdf_text(url)
         except Exception:                 # noqa: BLE001
             continue
         for ln in _clean(text):

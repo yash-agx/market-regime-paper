@@ -33,6 +33,20 @@ def main() -> None:
     stale = D.staleness_report(cleaned.prices, cleaned.returns)
     stale.to_csv(cfg.RESULTS_DIR / "phase1_stale_prices.csv")
 
+    events = D.load_corporate_actions()
+    if not events.empty:
+        from . import corporate_actions as CA
+
+        raw_prices = D.download_raw()["stocks"].reindex(cleaned.prices.index)
+        _, adj_log, _ = CA.apply_demerger_adjustments(raw_prices, events)
+        adj_log.to_csv(CA.ADJUSTMENT_LOG_CSV, index=False)
+        print(f"\n  Demerger adjustments ({len(adj_log)} events on record, "
+              f"{int(adj_log['applied'].sum())} applied):\n")
+        for _, r in adj_log.iterrows():
+            mark = "APPLIED " if r["applied"] else "not used"
+            fac = f"factor {r['factor']:.4f}" if pd.notna(r["factor"]) else "no factor"
+            print(f"    {mark}  {r['symbol']:12s} {r['ex_date']}  {fac:16s} {r['method']}")
+
     study = cleaned.prices.loc[cfg.STUDY_START:cfg.STUDY_END]
     listing = cleaned.listing
     summary = {
@@ -93,7 +107,8 @@ def main() -> None:
     print("\n  Worst missing-data offenders (% of days missing inside their own span):")
     for tkr, row in listing.nlargest(5, "pct_missing_in_span").iterrows():
         print(f"    {tkr:16s} {row['pct_missing_in_span']:.3f}%  ({row['n_missing_in_span']} days)")
-    print(f"\n  Flagged returns beyond +/-50%: {len(cleaned.flagged)}")
+    pct = int(round(100 * cfg.EXTREME_RETURN))
+    print(f"\n  Flagged returns beyond +/-{pct}%: {len(cleaned.flagged)}")
     if not cleaned.flagged.empty:
         for _, row in cleaned.flagged.head(10).iterrows():
             print(f"    {row['date'].date()}  {row['ticker']:16s} {row['return_pct']:+.2f}%")

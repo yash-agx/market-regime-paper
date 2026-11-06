@@ -147,6 +147,22 @@ def _read_raw(path) -> pd.DataFrame:
 # --------------------------------------------------------------------------
 
 
+def load_corporate_actions() -> pd.DataFrame:
+    """Demergers and schemes of arrangement, from NSE's corporate-action record.
+
+    Empty if Phase 5's sweep has not been run - the pipeline still works, it
+    just leaves the fake ex-date returns in, which is what it did before.
+    """
+    path = cfg.CONFIG_DIR / "corporate_actions.csv"
+    if not path.exists():
+        return pd.DataFrame()
+    df = pd.read_csv(path)
+    if df.empty:
+        return df
+    df["ex_date"] = pd.to_datetime(df["ex_date"]).dt.date
+    return df
+
+
 @dataclass
 class CleanedData:
     prices: pd.DataFrame        # adjusted closes on the index calendar
@@ -171,7 +187,33 @@ def clean(raw: dict[str, pd.DataFrame]) -> CleanedData:
     if all_missing:
         print(f"  WARNING: no data at all for {all_missing} - kept as empty columns")
 
+    # Demergers: Yahoo adjusts for splits and dividends but not for a business
+    # being spun off, so the parent's ex-date drop is left in as a fake return.
+    # Rescaling the pre-ex-date history by (ex-date close / previous close)
+    # zeroes that return and changes no other return in the series, because a
+    # constant factor cancels in a ratio.
+    #
+    # This stays causal: the factor can only be computed once the ex-date price
+    # exists, so on truncated data an event in the future simply is not applied,
+    # and every return up to the cut is identical either way.
+    adjustment_log = pd.DataFrame()
+    unadjusted_exdates = pd.DataFrame()
+    events = load_corporate_actions()
+    if not events.empty:
+        from . import corporate_actions as CA
+
+        prices, adjustment_log, unadjusted_exdates = CA.apply_demerger_adjustments(
+            prices, events)
+
     returns = prices.pct_change()
+
+    # An event that could not be measured leaves its ex-date return unusable.
+    # It is blanked rather than left in: a fake -40% is far worse than a gap,
+    # and the 5%-missing rule already knows what to do with a gap.
+    for _, row in unadjusted_exdates.iterrows():
+        ticker, ex = row["ticker"], pd.Timestamp(row["ex_date"])
+        if ticker in returns.columns and ex in returns.index:
+            returns.loc[ex, ticker] = np.nan
     # The first observation of a stock that starts mid-sample is not a return.
     first_obs = prices.notna().idxmax()
     for col in prices.columns:

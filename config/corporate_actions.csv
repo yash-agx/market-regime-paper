@@ -1,0 +1,17 @@
+symbol,company_name,ex_date,subject,isin,source_url
+GRASIM,Grasim Industries Limited,2010-05-26,Scheme Of Arrangement,INE047A01013,https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=GRASIM&from_date=01-01-2009&to_date=31-12-2025
+ZEEL,Zee Entertainment Enterprises Limited,2010-10-07,Annual General Meeting / Dividend Rs.2/- Per Share / Scheme Of Arrangement,INE256A01028,https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=ZEEL&from_date=01-01-2009&to_date=31-12-2025
+DRREDDY,Dr. Reddy's Laboratories Limited,2011-03-17,Scheme Of Arrangement - Bonus Debentures 6:1,INE089A01023,https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=DRREDDY&from_date=01-01-2009&to_date=31-12-2025
+WIPRO,Wipro Limited,2013-04-09,Scheme Of Arrangement,INE075A01022,https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=WIPRO&from_date=01-01-2009&to_date=31-12-2025
+NTPC,NTPC Limited,2015-03-20,Scheme Of Arrangement - Bonus Debentures 1:1,INE733E01010,https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=NTPC&from_date=01-01-2009&to_date=31-12-2025
+ADANIENT,Adani Enterprises Limited,2015-06-03,Scheme Of Arrangement,INE423A01024,https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=ADANIENT&from_date=01-01-2009&to_date=31-12-2025
+GRASIM,Grasim Industries Limited,2017-07-19, Scheme Of Arrangement,INE047A01013,https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=GRASIM&from_date=01-01-2009&to_date=31-12-2025
+RELCAPITAL,Reliance Capital Limited,2017-09-05, Scheme Of Arrangement,INE013A01015,https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=RELCAPITAL&from_date=01-01-2009&to_date=31-12-2025
+ADANIENT,Adani Enterprises Limited,2018-04-05, Scheme Of Arrangement,INE423A01024,https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=ADANIENT&from_date=01-01-2009&to_date=31-12-2025
+ADANIENT,Adani Enterprises Limited,2018-09-06, Scheme Of Arrangement,INE423A01024,https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=ADANIENT&from_date=01-01-2009&to_date=31-12-2025
+NMDC,NMDC Limited,2022-10-27,Demerger,INE584A01023,https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=NMDC&from_date=01-01-2009&to_date=31-12-2025
+RELIANCE,Reliance Industries Limited,2023-07-20,Demerger,INE002A01018,https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=RELIANCE&from_date=01-01-2009&to_date=31-12-2025
+ITC,ITC Limited,2025-01-06,Demerger,INE154A01025,https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=ITC&from_date=01-01-2009&to_date=31-12-2025
+SIEMENS,Siemens Limited,2025-04-07,Demerger,INE003A01024,https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=SIEMENS&from_date=01-01-2009&to_date=31-12-2025
+TMPV,Tata Motors Passenger Vehicles Limited,2025-10-14,Demerger,INE155A01022,https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=TMPV&from_date=01-01-2009&to_date=31-12-2025
+HINDUNILVR,Hindustan Unilever Limited,2025-12-05,Demerger,INE030A01027,https://www.nseindia.com/api/corporates-corporateActions?index=equities&symbol=HINDUNILVR&from_date=01-01-2009&to_date=31-12-2025

@@ -12,7 +12,7 @@ max_pct_missing_in_span,0.0
 eligible_stocks_on_study_start,0
 eligible_stocks_on_insample_end,47
 eligible_stocks_on_last_day,50
-n_flagged_returns,1
+n_flagged_returns,10
 n_stocks_with_flat_run_over_20_days,1
 worst_flat_run_days,245
 worst_flat_run_ticker,NESTLEIND.NS

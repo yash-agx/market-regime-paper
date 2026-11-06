@@ -75,19 +75,24 @@ def test_method_a_unchanged_by_truncation(nsei, cut):
 # --------------------------------------------------------------------------
 
 
+@pytest.fixture(scope="module")
+def method_b_full(nsei):
+    """Refitting the HMM across the whole sample is slow - do it once."""
+    return R.method_b(nsei.nsei_returns)[0]
+
+
 @pytest.mark.parametrize("cut", CUTS)
-def test_method_b_unchanged_by_truncation(nsei, cut):
+def test_method_b_unchanged_by_truncation(nsei, method_b_full, cut):
     """Refits, segment governance and the forward pass must all be causal."""
     cut = pd.Timestamp(cut)
-    full, _ = R.method_b(nsei.nsei_returns)
+    full = method_b_full
     part, _ = R.method_b(nsei.nsei_returns.loc[:cut])
     pd.testing.assert_series_equal(part["p_high_vol"], full["p_high_vol"].loc[:cut])
     pd.testing.assert_series_equal(part["high_vol"], full["high_vol"].loc[:cut])
 
 
-def test_no_day_is_labelled_by_a_model_that_has_seen_it(nsei):
-    b, _ = R.method_b(nsei.nsei_returns)
-    labelled = b.dropna(subset=["p_high_vol"])
+def test_no_day_is_labelled_by_a_model_that_has_seen_it(method_b_full):
+    labelled = method_b_full.dropna(subset=["p_high_vol"])
     fit_dates = pd.DatetimeIndex(labelled["model_fit_date"].to_numpy())
     assert (fit_dates < labelled.index).all(), "a model labelled a day it was trained on"
 
@@ -108,17 +113,20 @@ def test_filtered_is_not_smoothed(nsei):
     filtered = R._filtered_probabilities(train.to_numpy(), fit)[:, hi]
 
     model = GaussianHMM(n_components=2, covariance_type="full", n_iter=1000,
-                        tol=1e-6, random_state=cfg.RANDOM_SEED)
+                        tol=1e-6, random_state=cfg.RANDOM_SEED,
+                        transmat_prior=cfg.HMM_TRANSMAT_PRIOR)
     model.fit(X)
-    smoothed = model.predict_proba(X)[:, hi]
+    # This is a separate fit, so its states can come out in the opposite order.
+    # Identify its high-variance state from its own covariances, never from ours.
+    hi_ref = int(np.argmax([model.covars_[i].ravel()[0] for i in range(2)]))
+    smoothed = model.predict_proba(X)[:, hi_ref]
 
     assert not np.allclose(filtered, smoothed), "filtered probabilities look smoothed"
     assert np.corrcoef(filtered, smoothed)[0, 1] > 0.5, "these should still be related"
 
 
-def test_filtered_probability_is_a_probability(nsei):
-    b, _ = R.method_b(nsei.nsei_returns)
-    p = b["p_high_vol"].dropna()
+def test_filtered_probability_is_a_probability(method_b_full):
+    p = method_b_full["p_high_vol"].dropna()
     assert (p >= 0).all() and (p <= 1).all()
 
 
@@ -149,8 +157,10 @@ def test_forward_pass_matches_a_hand_computed_two_step_example():
 
 
 def test_hmm_is_reproducible(nsei):
-    a, _ = R.method_b(nsei.nsei_returns, seed=cfg.RANDOM_SEED)
-    b, _ = R.method_b(nsei.nsei_returns, seed=cfg.RANDOM_SEED)
+    """Same seed, same answer. Run on a short slice - the point is determinism."""
+    short = nsei.nsei_returns.loc[:"2013-12-31"]
+    a, _ = R.method_b(short, seed=cfg.RANDOM_SEED)
+    b, _ = R.method_b(short, seed=cfg.RANDOM_SEED)
     pd.testing.assert_series_equal(a["p_high_vol"], b["p_high_vol"])
 
 

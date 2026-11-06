@@ -1,0 +1,73 @@
+strategy,period,cost_bps,n_periods,ann_return_pct,ann_vol_pct,mean_period_return_pct,max_drawdown_pct,hit_rate_pct,mean_turnover,ann_turnover,mean_n_long,mean_n_short,mean_n_eligible,key
+Momentum (long-short),2010-2025 (all),gross,191,3.89,21.47,0.5188,-42.23,56.54,1.022,12.26,9.4,9.5,45.4,momentum_ls
+Momentum (long-short),2010-2025 (all),10,191,2.62,21.48,0.4166,-44.67,56.02,1.022,12.26,9.4,9.5,45.4,momentum_ls
+Momentum (long-short),2010-2025 (all),20,191,1.37,21.49,0.3144,-47.08,54.97,1.022,12.26,9.4,9.5,45.4,momentum_ls
+Momentum (long-short),2010-2025 (all),30,191,0.13,21.49,0.2123,-49.42,54.97,1.022,12.26,9.4,9.5,45.4,momentum_ls
+Momentum (long-short),2010-2019 (in-sample),gross,120,6.42,21.66,0.7246,-37.75,56.67,1.039,12.47,9.0,9.1,43.5,momentum_ls
+Momentum (long-short),2010-2019 (in-sample),10,120,5.1,21.67,0.6207,-38.81,55.83,1.039,12.47,9.0,9.1,43.5,momentum_ls
+Momentum (long-short),2010-2019 (in-sample),20,120,3.8,21.69,0.5168,-41.32,55.0,1.039,12.47,9.0,9.1,43.5,momentum_ls
+Momentum (long-short),2010-2019 (in-sample),30,120,2.51,21.7,0.4129,-44.26,55.0,1.039,12.47,9.0,9.1,43.5,momentum_ls
+Momentum (long-short),2020-2025 (held out),gross,71,-0.25,21.25,0.1711,-42.23,56.34,0.993,11.92,10.0,10.0,48.5,momentum_ls
+Momentum (long-short),2020-2025 (held out),10,71,-1.43,21.24,0.0718,-44.67,56.34,0.993,11.92,10.0,10.0,48.5,momentum_ls
+Momentum (long-short),2020-2025 (held out),20,71,-2.61,21.24,-0.0276,-47.08,54.93,0.993,11.92,10.0,10.0,48.5,momentum_ls
+Momentum (long-short),2020-2025 (held out),30,71,-3.76,21.24,-0.1269,-49.42,54.93,0.993,11.92,10.0,10.0,48.5,momentum_ls
+Momentum (long-only),2010-2025 (all),gross,191,28.86,19.06,2.2895,-29.05,70.16,0.516,6.2,9.4,0.0,45.4,momentum_lo
+Momentum (long-only),2010-2025 (all),10,191,28.08,19.06,2.2379,-29.1,69.63,0.516,6.2,9.4,0.0,45.4,momentum_lo
+Momentum (long-only),2010-2025 (all),20,191,27.31,19.06,2.1863,-29.14,69.63,0.516,6.2,9.4,0.0,45.4,momentum_lo
+Momentum (long-only),2010-2025 (all),30,191,26.53,19.06,2.1346,-29.18,69.63,0.516,6.2,9.4,0.0,45.4,momentum_lo
+Momentum (long-only),2010-2019 (in-sample),gross,120,26.73,17.37,2.1168,-20.62,70.0,0.528,6.34,9.0,0.0,43.5,momentum_lo
+Momentum (long-only),2010-2019 (in-sample),10,120,25.94,17.38,2.0639,-21.16,69.17,0.528,6.34,9.0,0.0,43.5,momentum_lo
+Momentum (long-only),2010-2019 (in-sample),20,120,25.16,17.38,2.0111,-21.7,69.17,0.528,6.34,9.0,0.0,43.5,momentum_lo
+Momentum (long-only),2010-2019 (in-sample),30,120,24.38,17.39,1.9582,-22.24,69.17,0.528,6.34,9.0,0.0,43.5,momentum_lo
+Momentum (long-only),2020-2025 (held out),gross,71,32.55,21.7,2.5815,-27.95,70.42,0.496,5.95,10.0,0.0,48.5,momentum_lo
+Momentum (long-only),2020-2025 (held out),10,71,31.78,21.7,2.5319,-27.98,70.42,0.496,5.95,10.0,0.0,48.5,momentum_lo
+Momentum (long-only),2020-2025 (held out),20,71,31.02,21.7,2.4823,-28.01,70.42,0.496,5.95,10.0,0.0,48.5,momentum_lo
+Momentum (long-only),2020-2025 (held out),30,71,30.26,21.69,2.4327,-28.03,70.42,0.496,5.95,10.0,0.0,48.5,momentum_lo
+Reversal (long-short),2010-2025 (all),gross,834,16.62,16.74,0.3229,-34.92,54.56,3.193,166.05,9.4,9.4,45.3,reversal_ls
+Reversal (long-short),2010-2025 (all),10,834,-1.2,16.74,0.0036,-61.93,48.44,3.193,166.05,9.4,9.4,45.3,reversal_ls
+Reversal (long-short),2010-2025 (all),20,834,-16.35,16.76,-0.3157,-94.67,41.97,3.193,166.05,9.4,9.4,45.3,reversal_ls
+Reversal (long-short),2010-2025 (all),30,834,-29.21,16.77,-0.6351,-99.62,35.97,3.193,166.05,9.4,9.4,45.3,reversal_ls
+Reversal (long-short),2010-2019 (in-sample),gross,521,23.43,16.51,0.4315,-16.18,57.2,3.205,166.69,9.1,9.1,43.4,reversal_ls
+Reversal (long-short),2010-2019 (in-sample),10,521,4.51,16.54,0.111,-32.42,50.29,3.205,166.69,9.1,9.1,43.4,reversal_ls
+Reversal (long-short),2010-2019 (in-sample),20,521,-11.56,16.58,-0.2096,-74.09,43.76,3.205,166.69,9.1,9.1,43.4,reversal_ls
+Reversal (long-short),2010-2019 (in-sample),30,521,-25.19,16.62,-0.5301,-94.83,37.43,3.205,166.69,9.1,9.1,43.4,reversal_ls
+Reversal (long-short),2020-2025 (held out),gross,313,6.12,17.05,0.1421,-34.92,50.16,3.173,164.99,10.0,10.0,48.5,reversal_ls
+Reversal (long-short),2020-2025 (held out),10,313,-10.02,17.02,-0.1752,-56.68,45.37,3.173,164.99,10.0,10.0,48.5,reversal_ls
+Reversal (long-short),2020-2025 (held out),20,313,-23.76,17.0,-0.4925,-81.98,38.98,3.173,164.99,10.0,10.0,48.5,reversal_ls
+Reversal (long-short),2020-2025 (held out),30,313,-35.43,16.99,-0.8098,-92.72,33.55,3.173,164.99,10.0,10.0,48.5,reversal_ls
+Reversal (long-only),2010-2025 (all),gross,834,32.32,20.33,0.5795,-38.84,58.75,1.618,84.13,9.4,0.0,45.3,reversal_lo
+Reversal (long-only),2010-2025 (all),10,834,21.69,20.32,0.4177,-40.44,55.76,1.618,84.13,9.4,0.0,45.3,reversal_lo
+Reversal (long-only),2010-2025 (all),20,834,11.9,20.32,0.2559,-47.8,53.96,1.618,84.13,9.4,0.0,45.3,reversal_lo
+Reversal (long-only),2010-2025 (all),30,834,2.88,20.32,0.0942,-58.02,51.32,1.618,84.13,9.4,0.0,45.3,reversal_lo
+Reversal (long-only),2010-2019 (in-sample),gross,521,31.45,19.38,0.5632,-23.98,58.73,1.614,83.94,9.1,0.0,43.4,reversal_lo
+Reversal (long-only),2010-2019 (in-sample),10,521,20.91,19.39,0.4018,-29.52,55.85,1.614,83.94,9.1,0.0,43.4,reversal_lo
+Reversal (long-only),2010-2019 (in-sample),20,521,11.2,19.39,0.2403,-34.73,54.13,1.614,83.94,9.1,0.0,43.4,reversal_lo
+Reversal (long-only),2010-2019 (in-sample),30,521,2.25,19.4,0.0789,-39.57,51.63,1.614,83.94,9.1,0.0,43.4,reversal_lo
+Reversal (long-only),2020-2025 (held out),gross,313,33.79,21.84,0.6067,-38.84,58.79,1.624,84.45,10.0,0.0,48.5,reversal_lo
+Reversal (long-only),2020-2025 (held out),10,313,23.0,21.83,0.4443,-39.86,55.59,1.624,84.45,10.0,0.0,48.5,reversal_lo
+Reversal (long-only),2020-2025 (held out),20,313,13.07,21.82,0.2819,-40.87,53.67,1.624,84.45,10.0,0.0,48.5,reversal_lo
+Reversal (long-only),2020-2025 (held out),30,313,3.92,21.81,0.1195,-41.86,50.8,1.624,84.45,10.0,0.0,48.5,reversal_lo
+Equal-weighted Nifty 50 (monthly),2010-2025 (all),gross,191,21.99,17.0,1.7906,-27.91,68.06,0.062,0.74,45.4,0.0,45.4,benchmark_monthly
+Equal-weighted Nifty 50 (monthly),2010-2025 (all),10,191,21.9,17.0,1.7844,-27.92,68.06,0.062,0.74,45.4,0.0,45.4,benchmark_monthly
+Equal-weighted Nifty 50 (monthly),2010-2025 (all),20,191,21.81,17.0,1.7782,-27.93,68.06,0.062,0.74,45.4,0.0,45.4,benchmark_monthly
+Equal-weighted Nifty 50 (monthly),2010-2025 (all),30,191,21.73,17.0,1.7721,-27.94,68.06,0.062,0.74,45.4,0.0,45.4,benchmark_monthly
+Equal-weighted Nifty 50 (monthly),2010-2019 (in-sample),gross,120,18.8,15.78,1.547,-16.5,67.5,0.064,0.77,43.5,0.0,43.5,benchmark_monthly
+Equal-weighted Nifty 50 (monthly),2010-2019 (in-sample),10,120,18.71,15.78,1.5406,-16.55,67.5,0.064,0.77,43.5,0.0,43.5,benchmark_monthly
+Equal-weighted Nifty 50 (monthly),2010-2019 (in-sample),20,120,18.62,15.78,1.5342,-16.61,67.5,0.064,0.77,43.5,0.0,43.5,benchmark_monthly
+Equal-weighted Nifty 50 (monthly),2010-2019 (in-sample),30,120,18.53,15.78,1.5278,-16.66,67.5,0.064,0.77,43.5,0.0,43.5,benchmark_monthly
+Equal-weighted Nifty 50 (monthly),2020-2025 (held out),gross,71,27.59,18.91,2.2022,-23.1,69.01,0.057,0.69,48.5,0.0,48.5,benchmark_monthly
+Equal-weighted Nifty 50 (monthly),2020-2025 (held out),10,71,27.5,18.91,2.1964,-23.11,69.01,0.057,0.69,48.5,0.0,48.5,benchmark_monthly
+Equal-weighted Nifty 50 (monthly),2020-2025 (held out),20,71,27.42,18.91,2.1907,-23.11,69.01,0.057,0.69,48.5,0.0,48.5,benchmark_monthly
+Equal-weighted Nifty 50 (monthly),2020-2025 (held out),30,71,27.33,18.91,2.185,-23.12,69.01,0.057,0.69,48.5,0.0,48.5,benchmark_monthly
+Equal-weighted Nifty 50 (weekly),2010-2025 (all),gross,834,21.68,16.15,0.4032,-34.06,59.23,0.027,1.43,45.3,0.0,45.3,benchmark_weekly
+Equal-weighted Nifty 50 (weekly),2010-2025 (all),10,834,21.51,16.16,0.4004,-34.09,59.23,0.027,1.43,45.3,0.0,45.3,benchmark_weekly
+Equal-weighted Nifty 50 (weekly),2010-2025 (all),20,834,21.34,16.16,0.3977,-34.12,59.23,0.027,1.43,45.3,0.0,45.3,benchmark_weekly
+Equal-weighted Nifty 50 (weekly),2010-2025 (all),30,834,21.17,16.16,0.395,-34.15,59.23,0.027,1.43,45.3,0.0,45.3,benchmark_weekly
+Equal-weighted Nifty 50 (weekly),2010-2019 (in-sample),gross,521,18.58,14.93,0.3496,-18.01,58.16,0.028,1.46,43.4,0.0,43.4,benchmark_weekly
+Equal-weighted Nifty 50 (weekly),2010-2019 (in-sample),10,521,18.41,14.94,0.3468,-18.11,58.16,0.028,1.46,43.4,0.0,43.4,benchmark_weekly
+Equal-weighted Nifty 50 (weekly),2010-2019 (in-sample),20,521,18.23,14.94,0.344,-18.22,58.16,0.028,1.46,43.4,0.0,43.4,benchmark_weekly
+Equal-weighted Nifty 50 (weekly),2010-2019 (in-sample),30,521,18.06,14.94,0.3412,-18.32,58.16,0.028,1.46,43.4,0.0,43.4,benchmark_weekly
+Equal-weighted Nifty 50 (weekly),2020-2025 (held out),gross,313,27.03,18.01,0.4924,-34.06,61.02,0.026,1.36,48.5,0.0,48.5,benchmark_weekly
+Equal-weighted Nifty 50 (weekly),2020-2025 (held out),10,313,26.86,18.01,0.4897,-34.09,61.02,0.026,1.36,48.5,0.0,48.5,benchmark_weekly
+Equal-weighted Nifty 50 (weekly),2020-2025 (held out),20,313,26.69,18.01,0.4871,-34.12,61.02,0.026,1.36,48.5,0.0,48.5,benchmark_weekly
+Equal-weighted Nifty 50 (weekly),2020-2025 (held out),30,313,26.52,18.01,0.4845,-34.15,61.02,0.026,1.36,48.5,0.0,48.5,benchmark_weekly

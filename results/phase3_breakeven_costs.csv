@@ -1,0 +1,7 @@
+strategy,2010-2025 (all),2010-2019 (in-sample),2020-2025 (held out)
+Momentum (long-short),50.8,69.7,17.2
+Momentum (long-only),443.4,400.5,520.6
+Reversal (long-short),10.1,13.5,4.5
+Reversal (long-only),35.8,34.9,37.4
+Equal-weighted Nifty 50 (monthly),2908.2,2409.5,3855.7
+Equal-weighted Nifty 50 (weekly),1470.8,1243.2,1877.1

@@ -414,7 +414,7 @@ def build_name_symbol_map(urls: list[str]) -> dict[str, tuple[str, str]]:
             if not _plausible_company(name):
                 continue
             key = normalise_company(name)
-            if len(key) >= 4:
+            if len(key) >= 3:
                 out.setdefault(key, (symbol, url))
     return out
 
@@ -429,6 +429,34 @@ def load_nse_equity_names() -> dict[str, tuple[str, str]]:
     out = {}
     for _, row in df.iterrows():
         key = normalise_company(row["NAME OF COMPANY"])
-        if len(key) >= 4:
+        if len(key) >= 3:
             out.setdefault(key, (str(row["SYMBOL"]).strip(), NSE_EQUITY_LIST_URL))
+    return out
+
+
+def load_symbol_identity_map() -> dict[str, tuple[str, str]]:
+    """Names that ARE their ticker, matched by exact string identity.
+
+    Some older companies were named closely enough that the normalised company
+    name and the NSE symbol are the same string - "Sesa Goa Ltd" normalises to
+    "sesagoa" and the NSE symbol is SESAGOA; "ABB Ltd" to "abb" and the symbol
+    is ABB. Matching those is identity against a published symbol, not a guess,
+    but it only counts when the match is exact.
+    """
+    out: dict[str, tuple[str, str]] = {}
+    sc_path = cfg.RAW_DIR / "nse_symbolchange.csv"
+    symbols: list[tuple[str, str]] = []
+    if sc_path.exists():
+        sc = pd.read_csv(sc_path, on_bad_lines="skip")
+        sc.columns = [c.strip() for c in sc.columns]
+        for col in ("OLD SYMBOL", "NEW SYMBOL"):
+            symbols += [(str(v).strip(), NSE_SYMBOLCHANGE_URL) for v in sc[col]]
+    eq_path = cfg.RAW_DIR / "nse_equity_list.csv"
+    if eq_path.exists():
+        eq = pd.read_csv(eq_path)
+        eq.columns = [c.strip() for c in eq.columns]
+        symbols += [(str(v).strip(), NSE_EQUITY_LIST_URL) for v in eq["SYMBOL"]]
+    for sym, src in symbols:
+        if sym and sym != "nan":
+            out.setdefault(sym.lower(), (sym, src))
     return out

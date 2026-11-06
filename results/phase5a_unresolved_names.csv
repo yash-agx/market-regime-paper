@@ -1,0 +1,4 @@
+effective_date,action,company_name,source_url
+2009-01-12,exclude,Satyam Computer Services Ltd,https://www.niftyindices.com/Press_Release/ind_prs07012009.pdf
+2009-06-17,exclude,Reliance Petroleum Ltd,https://www.niftyindices.com/Press_Release/ind_prs19052009.pdf
+2009-10-20,include,Infrastructure Development Finance Co. Ltd,https://www.niftyindices.com/Press_Release/ind_prs04092009.pdf

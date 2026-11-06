@@ -26,11 +26,13 @@ Takes the raw parsed changes and does four things:
 from __future__ import annotations
 
 import datetime as dt
+import json
 
 import pandas as pd
 
 from . import config as cfg
 from . import index_changes as IC
+from . import membership as M
 
 # Replacements announced twice: (effective_date, symbol) that did NOT happen.
 # The YES Bank periodic review scheduled 27 March 2020 was overtaken by the
@@ -56,10 +58,17 @@ def resolve_tickers(df: pd.DataFrame, urls: list[str]) -> tuple[pd.DataFrame, pd
     df["symbol"] = df["symbol"].fillna("").astype(str).str.strip()
 
     print("Building a name -> ticker map from NSE documents...")
-    from_releases = IC.build_name_symbol_map(urls)
+    cache = cfg.RAW_DIR / "name_symbol_map.json"
+    if cache.exists():
+        from_releases = {k: tuple(v) for k, v in json.loads(cache.read_text()).items()}
+    else:
+        from_releases = IC.build_name_symbol_map(urls)
+        cache.write_text(json.dumps({k: list(v) for k, v in from_releases.items()}))
     from_equity = IC.load_nse_equity_names()
+    identity = IC.load_symbol_identity_map()
     print(f"  {len(from_releases)} names from press-release tables, "
-          f"{len(from_equity)} from the NSE equity list")
+          f"{len(from_equity)} from the NSE equity list, "
+          f"{len(identity)} symbols for exact-identity matching")
 
     sym, src = [], []
     for _, row in df.iterrows():
@@ -68,7 +77,8 @@ def resolve_tickers(df: pd.DataFrame, urls: list[str]) -> tuple[pd.DataFrame, pd
             src.append("in the source document")
             continue
         key = IC.normalise_company(row["company_name"])
-        hit = from_releases.get(key) or from_equity.get(key)
+        hit = (from_releases.get(key) or from_equity.get(key)
+               or identity.get(key))
         sym.append(hit[0] if hit else "")
         src.append(hit[1] if hit else "")
     df["symbol_resolved"] = sym
@@ -91,7 +101,7 @@ DVR_FROM, DVR_TO = "2016-04-01", "2017-09-29"
 
 def membership_check(df: pd.DataFrame, aliases: dict[str, str]) -> pd.DataFrame:
     """Walk backwards from today's constituents, undoing each change."""
-    members = set(pd.read_csv(cfg.UNIVERSE_CSV)["symbol"])
+    members = {M.canonical(s, aliases) for s in pd.read_csv(cfg.UNIVERSE_CSV)["symbol"]}
     rows, problems = [], []
 
     applied = df[~df["superseded"]]
@@ -99,8 +109,10 @@ def membership_check(df: pd.DataFrame, aliases: dict[str, str]) -> pd.DataFrame:
         if d > dt.date.today().isoformat():
             continue
         sub = applied[applied["effective_date"] == d]
-        inc = [aliases.get(s, s) for s in sub[sub.action == "include"]["symbol_resolved"] if s]
-        exc = [aliases.get(s, s) for s in sub[sub.action == "exclude"]["symbol_resolved"] if s]
+        # Follow the whole rename chain, not one step: SESAGOA -> SSLT -> VEDL
+        # and LTI -> LTIM -> LTM both need more than a single lookup.
+        inc = [M.canonical(s, aliases) for s in sub[sub.action == "include"]["symbol_resolved"] if s]
+        exc = [M.canonical(s, aliases) for s in sub[sub.action == "exclude"]["symbol_resolved"] if s]
         for s in inc:                      # undo an inclusion by removing it
             if s in members:
                 members.discard(s)
@@ -111,7 +123,7 @@ def membership_check(df: pd.DataFrame, aliases: dict[str, str]) -> pd.DataFrame:
                 problems.append(f"{d}: {s} was already a member")
             else:
                 members.add(s)
-        expected = 51 if DVR_FROM <= d <= DVR_TO else 50
+        expected = 51 if DVR_FROM < d <= DVR_TO else 50
         rows.append({"before_date": d, "n_members": len(members),
                      "expected": expected, "ok": len(members) == expected,
                      "undid_out": len(exc), "undid_in": len(inc)})

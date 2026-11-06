@@ -45,10 +45,15 @@ TRADING_DAYS = 252
 # --- HMM (Method B) --------------------------------------------------------
 # The spec as frozen says only "2-state Gaussian HMM, refit every 12 months on
 # an expanding window, fixed seed". These are the estimation details it leaves
-# open. HMM_TRANSMAT_PRIOR = 1.0 is a uniform Dirichlet prior, i.e. no
-# regularisation at all, which reproduces the plain maximum-likelihood fit.
-# See results/phase2_methodb_prior_sensitivity.csv for what the value costs.
-HMM_TRANSMAT_PRIOR = 1.0
+# open. HMM_TRANSMAT_PRIOR = 2.0 is a weak Dirichlet prior worth one
+# pseudo-observation of each transition. It was added in Phase 2, BEFORE any
+# strategy results were seen, to fix a degenerate estimate: unregularised
+# maximum likelihood put the low->high transition at exactly zero for the 2011
+# and 2012 training windows, making the low-volatility state absorbing, so the
+# filter could never leave it once it entered. See
+# results/phase2_methodb_prior_sensitivity.csv for what the value costs -
+# almost nothing on the well-identified later fits.
+HMM_TRANSMAT_PRIOR = 2.0
 HMM_RESTARTS = 10             # deterministic restarts; the best log-likelihood wins
 HMM_MIN_TRAIN_DAYS = 200      # the 2009 warm-up year (~248 days) clears this
 MONTHS_PER_YEAR = 12

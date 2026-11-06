@@ -1,10 +1,10 @@
 period,method,n_days,pct_days_high_vol,n_high_vol_episodes,n_low_vol_episodes,mean_high_vol_length_days,mean_low_vol_length_days,median_high_vol_length_days,longest_high_vol_episode_days,mean_episode_length_days
 2010-2025 (all),A: realised vol,3929,28.28,61,62,18.2,45.5,7.0,115,31.9
-2010-2025 (all),B: HMM filtered,3929,4.22,27,28,6.1,134.4,4.0,40,71.4
+2010-2025 (all),B: HMM filtered,3929,4.61,29,30,6.2,124.9,5.0,39,66.6
 2010-2025 (all),VIX (robustness),3929,22.91,75,76,12.0,39.9,3.0,309,26.0
 2010-2019 (in-sample),A: realised vol,2443,22.31,37,38,14.7,49.9,5.0,94,32.6
-2010-2019 (in-sample),B: HMM filtered,2443,1.39,8,9,4.2,267.7,2.5,14,143.7
+2010-2019 (in-sample),B: HMM filtered,2443,2.05,10,11,5.0,217.5,4.0,14,116.3
 2010-2019 (in-sample),VIX (robustness),2443,14.65,49,50,7.3,41.7,2.0,49,24.7
 2020-2025 (held out),A: realised vol,1486,38.09,24,25,23.6,36.8,11.5,115,30.3
-2020-2025 (held out),B: HMM filtered,1486,8.88,19,20,6.9,67.7,5.0,40,38.1
+2020-2025 (held out),B: HMM filtered,1486,8.82,19,20,6.9,67.8,5.0,39,38.1
 2020-2025 (held out),VIX (robustness),1486,36.47,26,27,20.8,35.0,4.0,309,28.0

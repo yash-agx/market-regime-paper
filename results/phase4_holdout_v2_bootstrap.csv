@@ -1,0 +1,19 @@
+regime_method,cost,hypothesis,observed,ci95_low,ci95_high,p_one_sided,n_valid_resamples,mean_block,note
+A: realised vol (main),gross,H1,0.7091,-0.6616,1.9322,0.1473,10000,4.24,
+A: realised vol (main),gross,H2,-0.1537,-2.0193,1.3718,0.5678,10000,22.95,
+A: realised vol (main),gross,H3,0.5554,-2.1576,2.6928,0.3236,10000,5.61,resampled over calendar months to keep the two strategies aligned
+A: realised vol (main),20bps,H1,0.6465,-0.6978,1.8604,0.1657,10000,4.24,
+A: realised vol (main),20bps,H2,0.5455,-1.596,2.1604,0.3059,10000,22.95,
+A: realised vol (main),20bps,H3,1.192,-1.8033,3.513,0.2102,10000,5.61,resampled over calendar months to keep the two strategies aligned
+VIX (main robustness),gross,H1,0.1749,-1.4087,1.6767,0.456,9999,10.35,1 resamples dropped for having under 3 periods in a regime
+VIX (main robustness),gross,H2,-0.3298,-2.5863,1.7635,0.6235,10000,26.49,
+VIX (main robustness),gross,H3,-0.1549,-3.0115,2.6959,0.5565,10000,9.69,resampled over calendar months to keep the two strategies aligned
+VIX (main robustness),20bps,H1,0.0896,-1.4792,1.5897,0.4996,9999,10.35,1 resamples dropped for having under 3 periods in a regime
+VIX (main robustness),20bps,H2,0.6085,-1.8481,2.7144,0.2971,10000,26.49,
+VIX (main robustness),20bps,H3,0.6981,-2.3039,3.5474,0.3373,10000,9.69,resampled over calendar months to keep the two strategies aligned
+B: HMM (underpowered),gross,H1,0.3874,-21.6393,2.4366,0.348,8724,7.91,1276 resamples dropped for having under 3 periods in a regime
+B: HMM (underpowered),gross,H2,2.4727,-0.1032,5.9682,0.0292,9994,16.61,6 resamples dropped for having under 3 periods in a regime
+B: HMM (underpowered),gross,H3,2.8601,-19.5525,6.8543,0.1041,9022,4.58,resampled over calendar months to keep the two strategies aligned; 978 resamples dropped for a near-empty regime
+B: HMM (underpowered),20bps,H1,0.3994,-20.5999,2.4583,0.3449,8724,7.91,1276 resamples dropped for having under 3 periods in a regime
+B: HMM (underpowered),20bps,H2,3.3893,0.6738,6.0783,0.0093,9994,16.61,6 resamples dropped for having under 3 periods in a regime
+B: HMM (underpowered),20bps,H3,3.7886,-18.3743,7.4888,0.0814,9022,4.58,resampled over calendar months to keep the two strategies aligned; 978 resamples dropped for a near-empty regime

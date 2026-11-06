@@ -1,0 +1,25 @@
+strategy,n,nw_lags,mean_low_vol_pct,diff_high_minus_low_pct,t_stat,p_value_two_sided,r_squared,regime_method,cost
+Momentum (long-short),71,3,0.2691,-1.32,-1.17,0.2419,0.0129,A: realised vol (main),gross
+Momentum (long-short),71,3,0.0541,-1.3309,-1.178,0.2388,0.0132,A: realised vol (main),20bps
+Reversal (long-short),313,5,0.2347,0.0359,0.102,0.9191,0.0001,A: realised vol (main),gross
+Reversal (long-short),313,5,-0.4105,0.046,0.133,0.8945,0.0001,A: realised vol (main),20bps
+Momentum (long-only),71,3,0.8965,0.4595,0.36,0.7185,0.0017,A: realised vol (main),gross
+Momentum (long-only),71,3,0.7958,0.4449,0.349,0.7272,0.0016,A: realised vol (main),20bps
+Reversal (long-only),313,5,0.3276,0.2548,0.61,0.5419,0.0018,A: realised vol (main),gross
+Reversal (long-only),313,5,-0.0029,0.266,0.64,0.5224,0.002,A: realised vol (main),20bps
+Momentum (long-short),71,3,-0.0678,-0.4658,-0.327,0.7437,0.0016,VIX (main robustness),gross
+Momentum (long-short),71,3,-0.2774,-0.4902,-0.345,0.7303,0.0018,VIX (main robustness),20bps
+Reversal (long-short),313,5,0.2458,0.0073,0.019,0.9852,0.0,VIX (main robustness),gross
+Reversal (long-short),313,5,-0.3997,0.0193,0.05,0.9601,0.0,VIX (main robustness),20bps
+Momentum (long-only),71,3,0.9309,0.3723,0.253,0.8003,0.0011,VIX (main robustness),gross
+Momentum (long-only),71,3,0.83,0.358,0.244,0.8075,0.001,VIX (main robustness),20bps
+Reversal (long-only),313,5,0.2682,0.4489,1.126,0.26,0.0054,VIX (main robustness),gross
+Reversal (long-only),313,5,-0.0596,0.4534,1.144,0.2528,0.0055,VIX (main robustness),20bps
+Momentum (long-short),71,3,-0.1817,-0.7076,-0.342,0.7321,0.0014,B: HMM (underpowered),gross
+Momentum (long-short),71,3,-0.3967,-0.7507,-0.362,0.7171,0.0016,B: HMM (underpowered),20bps
+Reversal (long-short),313,5,0.1231,1.3518,1.795,0.0727,0.0278,B: HMM (underpowered),gross
+Reversal (long-short),313,5,-0.518,1.35,1.821,0.0686,0.028,B: HMM (underpowered),20bps
+Momentum (long-only),71,3,1.3232,-2.4905,-1.029,0.3037,0.0183,B: HMM (underpowered),gross
+Momentum (long-only),71,3,1.2188,-2.5116,-1.039,0.2988,0.0186,B: HMM (underpowered),20bps
+Reversal (long-only),313,5,0.3326,0.9924,0.861,0.3893,0.0098,B: HMM (underpowered),gross
+Reversal (long-only),313,5,0.006,0.9961,0.867,0.3859,0.0099,B: HMM (underpowered),20bps

@@ -1,0 +1,109 @@
+strategy,regime_method,cost,regime,n_periods,sharpe,mean_period_return_pct,ann_return_pct,ann_vol_pct,max_drawdown_pct,hit_rate_pct,mean_turnover
+Momentum (long-short),A: realised vol (main),gross,high-vol,28,-0.2,-0.4365,-8.37,26.16,-36.05,46.43,1.037
+Momentum (long-short),A: realised vol (main),gross,low-vol,43,0.321,0.4618,4.16,17.24,-29.92,62.79,0.959
+Momentum (long-short),A: realised vol (main),gross,all,71,0.061,0.1075,-0.97,21.09,-42.24,56.34,0.989
+Momentum (long-short),A: realised vol (main),20bps,high-vol,28,-0.296,-0.6438,-10.63,26.08,-37.3,46.43,1.037
+Momentum (long-short),A: realised vol (main),20bps,low-vol,43,0.187,0.27,1.78,17.3,-32.35,60.47,0.959
+Momentum (long-short),A: realised vol (main),20bps,all,71,-0.051,-0.0904,-3.31,21.08,-47.09,54.93,0.989
+Momentum (long-short),VIX (main robustness),gross,high-vol,28,-0.064,-0.1426,-5.17,26.66,-35.39,46.43,1.011
+Momentum (long-short),VIX (main robustness),gross,low-vol,43,0.193,0.2704,1.86,16.84,-33.69,62.79,0.976
+Momentum (long-short),VIX (main robustness),gross,all,71,0.061,0.1075,-0.97,21.09,-42.24,56.34,0.989
+Momentum (long-short),VIX (main robustness),20bps,high-vol,28,-0.155,-0.3447,-7.45,26.61,-36.96,46.43,1.011
+Momentum (long-short),VIX (main robustness),20bps,low-vol,43,0.054,0.0753,-0.51,16.87,-35.83,60.47,0.976
+Momentum (long-short),VIX (main robustness),20bps,all,71,-0.051,-0.0904,-3.31,21.08,-47.09,54.93,0.989
+Momentum (long-short),B: HMM (underpowered),gross,high-vol,7,-0.75,-1.5868,-19.81,25.38,-22.24,28.57,1.064
+Momentum (long-short),B: HMM (underpowered),gross,low-vol,64,0.17,0.2928,1.34,20.7,-41.65,59.38,0.981
+Momentum (long-short),B: HMM (underpowered),gross,all,71,0.061,0.1075,-0.97,21.09,-42.24,56.34,0.989
+Momentum (long-short),B: HMM (underpowered),20bps,high-vol,7,-0.852,-1.7996,-21.87,25.34,-22.95,28.57,1.064
+Momentum (long-short),B: HMM (underpowered),20bps,low-vol,64,0.056,0.0966,-1.02,20.69,-45.34,57.81,0.981
+Momentum (long-short),B: HMM (underpowered),20bps,all,71,-0.051,-0.0904,-3.31,21.08,-47.09,54.93,0.989
+Momentum (long-only),A: realised vol (main),gross,high-vol,28,1.376,3.0467,38.09,26.57,-13.64,82.14,0.559
+Momentum (long-only),A: realised vol (main),gross,low-vol,43,1.057,1.5877,18.96,18.02,-20.02,62.79,0.454
+Momentum (long-only),A: realised vol (main),gross,all,71,1.193,2.1631,26.17,21.76,-28.36,70.42,0.496
+Momentum (long-only),A: realised vol (main),20bps,high-vol,28,1.327,2.9348,36.3,26.54,-13.91,82.14,0.559
+Momentum (long-only),A: realised vol (main),20bps,low-vol,43,0.996,1.4969,17.68,18.04,-20.39,62.79,0.454
+Momentum (long-only),A: realised vol (main),20bps,all,71,1.139,2.0639,24.7,21.75,-28.41,70.42,0.496
+Momentum (long-only),VIX (main robustness),gross,high-vol,28,1.111,2.543,29.91,27.48,-28.36,71.43,0.537
+Momentum (long-only),VIX (main robustness),gross,low-vol,43,1.324,1.9158,23.79,17.36,-18.84,69.77,0.469
+Momentum (long-only),VIX (main robustness),gross,all,71,1.193,2.1631,26.17,21.76,-28.36,70.42,0.496
+Momentum (long-only),VIX (main robustness),20bps,high-vol,28,1.065,2.4355,28.29,27.44,-28.41,71.43,0.537
+Momentum (long-only),VIX (main robustness),20bps,low-vol,43,1.257,1.822,22.42,17.39,-19.29,69.77,0.469
+Momentum (long-only),VIX (main robustness),20bps,all,71,1.139,2.0639,24.7,21.75,-28.41,70.42,0.496
+Momentum (long-only),B: HMM (underpowered),gross,high-vol,7,-0.035,-0.1313,-11.18,45.09,-0.82,71.43,0.553
+Momentum (long-only),B: HMM (underpowered),gross,low-vol,64,1.608,2.4141,31.1,18.01,-18.84,70.31,0.49
+Momentum (long-only),B: HMM (underpowered),gross,all,71,1.193,2.1631,26.17,21.76,-28.36,70.42,0.496
+Momentum (long-only),B: HMM (underpowered),20bps,high-vol,7,-0.064,-0.2418,-12.34,45.01,-0.95,71.43,0.553
+Momentum (long-only),B: HMM (underpowered),20bps,low-vol,64,1.542,2.3161,29.6,18.02,-19.29,70.31,0.49
+Momentum (long-only),B: HMM (underpowered),20bps,all,71,1.139,2.0639,24.7,21.75,-28.41,70.42,0.496
+Reversal (long-short),A: realised vol (main),gross,high-vol,119,0.329,0.1259,4.71,19.87,-30.4,48.74,3.135
+Reversal (long-short),A: realised vol (main),gross,low-vol,194,0.593,0.1716,8.11,15.04,-14.6,51.55,3.196
+Reversal (long-short),A: realised vol (main),gross,all,313,0.472,0.1542,6.8,17.01,-34.92,50.48,3.173
+Reversal (long-short),A: realised vol (main),20bps,high-vol,119,-1.316,-0.5011,-24.48,19.8,-53.58,40.34,3.135
+Reversal (long-short),A: realised vol (main),20bps,low-vol,194,-1.62,-0.4675,-22.51,15.01,-61.58,38.66,3.196
+Reversal (long-short),A: realised vol (main),20bps,all,313,-1.473,-0.4803,-23.26,16.96,-81.27,39.3,3.173
+Reversal (long-short),VIX (main robustness),gross,high-vol,109,0.466,0.1954,8.13,21.8,-34.92,51.38,3.153
+Reversal (long-short),VIX (main robustness),gross,low-vol,204,0.497,0.1323,6.1,13.85,-16.75,50.0,3.183
+Reversal (long-short),VIX (main robustness),gross,all,313,0.472,0.1542,6.8,17.01,-34.92,50.48,3.173
+Reversal (long-short),VIX (main robustness),20bps,high-vol,109,-1.042,-0.4353,-22.14,21.72,-52.15,41.28,3.153
+Reversal (long-short),VIX (main robustness),20bps,low-vol,204,-1.898,-0.5043,-23.85,13.82,-65.35,38.24,3.183
+Reversal (long-short),VIX (main robustness),20bps,all,313,-1.473,-0.4803,-23.26,16.96,-81.27,39.3,3.173
+Reversal (long-short),B: HMM (underpowered),gross,high-vol,29,1.656,0.8329,49.07,26.15,-9.75,55.17,3.159
+Reversal (long-short),B: HMM (underpowered),gross,low-vol,284,0.28,0.0849,3.23,15.77,-35.85,50.0,3.174
+Reversal (long-short),B: HMM (underpowered),gross,all,313,0.472,0.1542,6.8,17.01,-34.92,50.48,3.173
+Reversal (long-short),B: HMM (underpowered),20bps,high-vol,29,0.402,0.2011,7.49,26.04,-13.3,55.17,3.159
+Reversal (long-short),B: HMM (underpowered),20bps,low-vol,284,-1.819,-0.5499,-25.86,15.72,-80.3,37.68,3.174
+Reversal (long-short),B: HMM (underpowered),20bps,all,313,-1.473,-0.4803,-23.26,16.96,-81.27,39.3,3.173
+Reversal (long-only),A: realised vol (main),gross,high-vol,119,1.213,0.6643,35.62,28.47,-38.58,58.82,1.592
+Reversal (long-only),A: realised vol (main),gross,low-vol,194,1.37,0.4362,23.71,16.55,-18.42,55.15,1.643
+Reversal (long-only),A: realised vol (main),gross,all,313,1.245,0.5229,28.11,21.83,-39.49,56.55,1.624
+Reversal (long-only),A: realised vol (main),20bps,high-vol,119,0.633,0.3459,15.01,28.42,-39.73,55.46,1.592
+Reversal (long-only),A: realised vol (main),20bps,low-vol,194,0.338,0.1075,4.32,16.56,-24.9,49.48,1.643
+Reversal (long-only),A: realised vol (main),20bps,all,313,0.472,0.1982,8.26,21.81,-41.5,51.76,1.624
+Reversal (long-only),VIX (main robustness),gross,high-vol,109,1.426,0.8003,45.23,29.19,-31.18,58.72,1.61
+Reversal (long-only),VIX (main robustness),gross,low-vol,204,1.173,0.3747,19.81,16.62,-15.62,55.39,1.631
+Reversal (long-only),VIX (main robustness),gross,all,313,1.245,0.5229,28.11,21.83,-39.49,56.55,1.624
+Reversal (long-only),VIX (main robustness),20bps,high-vol,109,0.853,0.4782,22.95,29.14,-32.17,55.05,1.61
+Reversal (long-only),VIX (main robustness),20bps,low-vol,204,0.152,0.0485,1.14,16.61,-21.47,50.0,1.631
+Reversal (long-only),VIX (main robustness),20bps,all,313,0.472,0.1982,8.26,21.81,-41.5,51.76,1.624
+Reversal (long-only),B: HMM (underpowered),gross,high-vol,29,1.061,0.9439,47.38,46.28,-29.75,55.17,1.587
+Reversal (long-only),B: HMM (underpowered),gross,low-vol,284,1.411,0.4799,26.29,17.68,-14.18,56.69,1.628
+Reversal (long-only),B: HMM (underpowered),gross,all,313,1.245,0.5229,28.11,21.83,-39.49,56.55,1.624
+Reversal (long-only),B: HMM (underpowered),20bps,high-vol,29,0.705,0.6266,25.08,46.23,-30.59,48.28,1.587
+Reversal (long-only),B: HMM (underpowered),20bps,low-vol,284,0.455,0.1544,6.68,17.66,-21.47,52.11,1.628
+Reversal (long-only),B: HMM (underpowered),20bps,all,313,0.472,0.1982,8.26,21.81,-41.5,51.76,1.624
+Equal-weighted Nifty 50 (monthly),A: realised vol (main),gross,high-vol,28,1.308,2.7157,33.73,24.91,-9.74,75.0,0.067
+Equal-weighted Nifty 50 (monthly),A: realised vol (main),gross,low-vol,43,1.04,1.2002,14.33,13.85,-16.36,58.14,0.051
+Equal-weighted Nifty 50 (monthly),A: realised vol (main),gross,all,71,1.135,1.7979,21.62,19.0,-23.51,64.79,0.057
+Equal-weighted Nifty 50 (monthly),A: realised vol (main),20bps,high-vol,28,1.302,2.7023,33.52,24.9,-9.76,75.0,0.067
+Equal-weighted Nifty 50 (monthly),A: realised vol (main),20bps,low-vol,43,1.031,1.1901,14.2,13.85,-16.4,58.14,0.051
+Equal-weighted Nifty 50 (monthly),A: realised vol (main),20bps,all,71,1.128,1.7865,21.46,19.0,-23.52,64.79,0.057
+Equal-weighted Nifty 50 (monthly),VIX (main robustness),gross,high-vol,28,1.093,2.384,28.25,26.17,-23.51,64.29,0.067
+Equal-weighted Nifty 50 (monthly),VIX (main robustness),gross,low-vol,43,1.356,1.4162,17.49,12.53,-17.8,65.12,0.05
+Equal-weighted Nifty 50 (monthly),VIX (main robustness),gross,all,71,1.135,1.7979,21.62,19.0,-23.51,64.79,0.057
+Equal-weighted Nifty 50 (monthly),VIX (main robustness),20bps,high-vol,28,1.087,2.3705,28.05,26.16,-23.52,64.29,0.067
+Equal-weighted Nifty 50 (monthly),VIX (main robustness),20bps,low-vol,43,1.347,1.4062,17.35,12.53,-17.85,65.12,0.05
+Equal-weighted Nifty 50 (monthly),VIX (main robustness),20bps,all,71,1.128,1.7865,21.46,19.0,-23.52,64.79,0.057
+Equal-weighted Nifty 50 (monthly),B: HMM (underpowered),gross,high-vol,7,0.256,0.8695,2.59,40.69,-0.8,71.43,0.087
+Equal-weighted Nifty 50 (monthly),B: HMM (underpowered),gross,low-vol,64,1.464,1.8994,23.91,15.56,-17.8,64.06,0.054
+Equal-weighted Nifty 50 (monthly),B: HMM (underpowered),gross,all,71,1.135,1.7979,21.62,19.0,-23.51,64.79,0.057
+Equal-weighted Nifty 50 (monthly),B: HMM (underpowered),20bps,high-vol,7,0.251,0.8521,2.38,40.68,-0.81,71.43,0.087
+Equal-weighted Nifty 50 (monthly),B: HMM (underpowered),20bps,low-vol,64,1.456,1.8887,23.75,15.56,-17.85,64.06,0.054
+Equal-weighted Nifty 50 (monthly),B: HMM (underpowered),20bps,all,71,1.128,1.7865,21.46,19.0,-23.52,64.79,0.057
+Equal-weighted Nifty 50 (weekly),A: realised vol (main),gross,high-vol,119,1.179,0.5344,28.35,23.57,-33.66,60.5,0.03
+Equal-weighted Nifty 50 (weekly),A: realised vol (main),gross,low-vol,194,1.211,0.3167,16.8,13.6,-21.69,58.25,0.024
+Equal-weighted Nifty 50 (weekly),A: realised vol (main),gross,all,313,1.152,0.3995,21.06,18.03,-34.75,59.11,0.026
+Equal-weighted Nifty 50 (weekly),A: realised vol (main),20bps,high-vol,119,1.166,0.5283,27.95,23.57,-33.7,60.5,0.03
+Equal-weighted Nifty 50 (weekly),A: realised vol (main),20bps,low-vol,194,1.193,0.312,16.51,13.6,-21.76,58.25,0.024
+Equal-weighted Nifty 50 (weekly),A: realised vol (main),20bps,all,313,1.137,0.3943,20.73,18.03,-34.81,59.11,0.026
+Equal-weighted Nifty 50 (weekly),VIX (main robustness),gross,high-vol,109,1.401,0.6585,36.59,24.45,-27.51,60.55,0.032
+Equal-weighted Nifty 50 (weekly),VIX (main robustness),gross,low-vol,204,1.016,0.2611,13.5,13.37,-18.46,58.33,0.023
+Equal-weighted Nifty 50 (weekly),VIX (main robustness),gross,all,313,1.152,0.3995,21.06,18.03,-34.75,59.11,0.026
+Equal-weighted Nifty 50 (weekly),VIX (main robustness),20bps,high-vol,109,1.387,0.6521,36.14,24.45,-27.55,60.55,0.032
+Equal-weighted Nifty 50 (weekly),VIX (main robustness),20bps,low-vol,204,0.998,0.2565,13.23,13.37,-18.56,58.33,0.023
+Equal-weighted Nifty 50 (weekly),VIX (main robustness),20bps,all,313,1.137,0.3943,20.73,18.03,-34.81,59.11,0.026
+Equal-weighted Nifty 50 (weekly),B: HMM (underpowered),gross,high-vol,29,0.719,0.5089,21.96,36.79,-26.51,55.17,0.04
+Equal-weighted Nifty 50 (weekly),B: HMM (underpowered),gross,low-vol,284,1.348,0.3883,20.97,14.98,-18.46,59.51,0.025
+Equal-weighted Nifty 50 (weekly),B: HMM (underpowered),gross,all,313,1.152,0.3995,21.06,18.03,-34.75,59.11,0.026
+Equal-weighted Nifty 50 (weekly),B: HMM (underpowered),20bps,high-vol,29,0.708,0.5008,21.45,36.79,-26.55,55.17,0.04
+Equal-weighted Nifty 50 (weekly),B: HMM (underpowered),20bps,low-vol,284,1.331,0.3834,20.66,14.98,-18.56,59.51,0.025
+Equal-weighted Nifty 50 (weekly),B: HMM (underpowered),20bps,all,313,1.137,0.3943,20.73,18.03,-34.81,59.11,0.026

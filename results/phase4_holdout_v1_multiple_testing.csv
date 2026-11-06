@@ -1,0 +1,4 @@
+hypothesis,p_one_sided,bonferroni_threshold,survives_bonferroni
+H1,0.2931,0.0167,False
+H2,0.3959,0.0167,False
+H3,0.3245,0.0167,False

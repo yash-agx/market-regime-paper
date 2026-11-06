@@ -118,6 +118,14 @@ def fetch_pdf_layout_text(url: str, line_tol: float = 3.0) -> str:
     out: list[str] = []
     with pdfplumber.open(path) as pdf:
         for page in pdf.pages:
+            # Several of the older releases fake bold text by drawing every
+            # glyph twice at the same spot, which extracts as
+            # "SS&&PP CCNNXX NNiiffttyy" and matches no pattern at all.
+            # Dropping the duplicate characters is what makes 2012 readable.
+            try:
+                page = page.dedupe_chars(tolerance=1)
+            except Exception:             # noqa: BLE001 - older pdfplumber
+                pass
             rows: dict[float, list[tuple[float, str]]] = {}
             for w in page.extract_words():
                 key = round(w["top"] / line_tol) * line_tol
@@ -211,6 +219,32 @@ def nifty50_sections(lines: list[str]) -> list[list[str]]:
     return sections
 
 
+WRAPPED_MARKER_RE = re.compile(r"^(excluded|included)\s*:?\s*$", re.IGNORECASE)
+
+
+def _repair_wrapped_markers(lines: list[str]) -> list[str]:
+    """Rejoin "The following company is being" / "excluded:" split across lines.
+
+    Coordinate grouping sometimes puts the last word of the marker sentence on
+    its own line, and occasionally ABOVE the rest of the sentence rather than
+    below it. The marker is then never present on any single line, the table
+    that follows is never collected, and the release silently reports changes
+    in one direction only - which is what produced one-sided replacement dates.
+    """
+    out = list(lines)
+    for i, ln in enumerate(out):
+        m = WRAPPED_MARKER_RE.match(ln.strip())
+        if not m:
+            continue
+        word = m.group(1).lower()
+        for j in (i - 1, i + 1):          # the fragment can sit either side
+            if 0 <= j < len(out) and out[j].rstrip().lower().endswith("being"):
+                out[j] = f"{out[j].rstrip()} {word}:"
+                out[i] = ""
+                break
+    return out
+
+
 def _plausible_company(name: str) -> bool:
     """Reject prose that happens to end in capitals (the explanatory notes do)."""
     if not name or len(name) > 70:
@@ -225,7 +259,7 @@ def _collect(section: list[str], marker: str) -> list[tuple[str, str]]:
     """Rows following 'being excluded:' / 'being included:' until the list ends."""
     out = []
     collecting = False
-    for ln in section:
+    for ln in _repair_wrapped_markers(section):
         low = ln.lower()
         if marker in low:
             collecting = True
@@ -306,9 +340,9 @@ def parse_release(text: str, url: str) -> list[Change]:
         for action, marker in (("exclude", "being excluded"),
                                ("include", "being included")):
             for name, symbol in _collect(section, marker):
-                if (action, symbol) in seen:
+                if (action, symbol, name) in seen:
                     continue
-                seen.add((action, symbol))
+                seen.add((action, symbol, name))
                 out.append(Change(
                     effective_date=effective.isoformat(),
                     announcement_date=announced.isoformat(),

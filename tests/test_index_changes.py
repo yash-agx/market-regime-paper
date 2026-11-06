@@ -349,6 +349,75 @@ def test_is_real_pdf_survives_a_network_error(monkeypatch):
     assert IC.is_real_pdf("http://x/y.pdf") is None
 
 
+RELEASE_WRAPPED_MARKER = """
+PRESS RELEASE
+Mumbai, August 18, 2010
+These changes shall become effective from October 1, 2010.
+
+(1) S&P CNX Nifty Index
+
+The following companies are being excluded:
+
+Sr. No. Company Name
+1 ABB Ltd.
+2 Idea Cellular Ltd.
+3 Unitech Ltd.
+
+included:
+The following companies are being
+
+Sr. No. Company Name
+1 Bajaj Auto Ltd.
+2 Dr. Reddy's Laboratories Ltd.
+3 Sesa Goa Ltd.
+
+(2) CNX Nifty Junior Index
+"""
+
+
+def test_a_marker_split_across_lines_is_still_recognised():
+    """Coordinate grouping can split "The following companies are being
+    included:" and put the tail ABOVE the rest. The marker is then on no single
+    line, the table below it is never read, and the release reports a
+    replacement in one direction only."""
+    out = IC.parse_release(RELEASE_WRAPPED_MARKER, "http://example/g.pdf")
+    excluded = {c.company_name for c in out if c.action == "exclude"}
+    included = {c.company_name for c in out if c.action == "include"}
+    assert excluded == {"ABB Ltd", "Idea Cellular Ltd", "Unitech Ltd"}
+    assert included == {"Bajaj Auto Ltd", "Dr. Reddy's Laboratories Ltd",
+                        "Sesa Goa Ltd"}
+
+
+def test_rows_without_symbols_are_not_collapsed_together():
+    """Pre-2012 rows all have an empty symbol. De-duplicating on the symbol
+    alone threw away every row of a table after the first."""
+    out = IC.parse_release(RELEASE_WRAPPED_MARKER, "http://example/g.pdf")
+    assert len([c for c in out if c.action == "exclude"]) == 3
+    assert all(c.symbol == "" for c in out)
+
+
+# --------------------------------------------------------------------------
+# the doubled-glyph PDFs, against the real cached document
+# --------------------------------------------------------------------------
+
+
+def test_doubled_glyph_pdf_is_readable():
+    """Some 2012 releases fake bold by drawing every glyph twice, which
+    extracts as "SS&&PP CCNNXX NNiiffttyy IInnddeexx" and matches nothing.
+    Without character de-duplication the whole of 2012 goes missing."""
+    url = "https://www.niftyindices.com/Press_Release/ind_prs14032012.pdf"
+    cached = IC.PDF_CACHE / url.rsplit("/", 1)[-1]
+    if not cached.exists():
+        pytest.skip("press release not cached - run `python -m src.run_phase5a`")
+    text = IC.fetch_pdf_layout_text(url)
+    assert "S&P CNX Nifty Index" in text
+    assert "SS&&PP" not in text
+    out = IC.parse_release(text, url)
+    assert {c.symbol for c in out if c.action == "exclude"} == {"RCOM", "RPOWER"}
+    assert {c.symbol for c in out if c.action == "include"} == {"ASIANPAINT",
+                                                                "BANKBARODA"}
+
+
 # --------------------------------------------------------------------------
 # the committed file, if it exists
 # --------------------------------------------------------------------------

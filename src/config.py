@@ -41,6 +41,16 @@ EXTREME_RETURN = 0.50         # flag (never delete) daily returns beyond +/-50%
 
 # --- conventions -----------------------------------------------------------
 TRADING_DAYS = 252
+
+# --- HMM (Method B) --------------------------------------------------------
+# The spec as frozen says only "2-state Gaussian HMM, refit every 12 months on
+# an expanding window, fixed seed". These are the estimation details it leaves
+# open. HMM_TRANSMAT_PRIOR = 1.0 is a uniform Dirichlet prior, i.e. no
+# regularisation at all, which reproduces the plain maximum-likelihood fit.
+# See results/phase2_methodb_prior_sensitivity.csv for what the value costs.
+HMM_TRANSMAT_PRIOR = 1.0
+HMM_RESTARTS = 10             # deterministic restarts; the best log-likelihood wins
+HMM_MIN_TRAIN_DAYS = 200      # the 2009 warm-up year (~248 days) clears this
 MONTHS_PER_YEAR = 12
 WEEKS_PER_YEAR = 52
 RANDOM_SEED = 20100101        # fixed seed everywhere (HMM, bootstrap)

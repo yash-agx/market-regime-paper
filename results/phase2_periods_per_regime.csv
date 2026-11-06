@@ -1,0 +1,13 @@
+strategy,period,method,n_periods,n_high_vol,n_low_vol,n_unlabelled,pct_high_vol
+momentum,2010-2019 (in-sample),A: realised vol,120,25,95,0,20.8
+momentum,2010-2019 (in-sample),B: HMM filtered,120,1,119,0,0.8
+momentum,2010-2019 (in-sample),VIX (robustness),120,16,104,0,13.3
+momentum,2020-2025 (held out),A: realised vol,71,28,43,0,39.4
+momentum,2020-2025 (held out),B: HMM filtered,71,7,64,0,9.9
+momentum,2020-2025 (held out),VIX (robustness),71,28,43,0,39.4
+reversal,2010-2019 (in-sample),A: realised vol,521,115,406,0,22.1
+reversal,2010-2019 (in-sample),B: HMM filtered,521,8,513,0,1.5
+reversal,2010-2019 (in-sample),VIX (robustness),521,73,448,0,14.0
+reversal,2020-2025 (held out),A: realised vol,313,119,194,0,38.0
+reversal,2020-2025 (held out),B: HMM filtered,313,30,283,0,9.6
+reversal,2020-2025 (held out),VIX (robustness),313,109,204,0,34.8

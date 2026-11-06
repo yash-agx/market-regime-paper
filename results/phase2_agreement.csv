@@ -1,0 +1,7 @@
+period,compared_with_A,n_common_days,pct_agreement,pct_both_high,pct_a_high_only,pct_b_high_only
+2010-2025 (all),B: HMM filtered,3929,75.95,4.22,24.05,0.0
+2010-2025 (all),VIX (robustness),3929,81.55,16.37,11.91,6.54
+2010-2019 (in-sample),B: HMM filtered,2443,79.08,1.39,20.92,0.0
+2010-2019 (in-sample),VIX (robustness),2443,81.21,9.09,13.22,5.57
+2020-2025 (held out),B: HMM filtered,1486,70.79,8.88,29.21,0.0
+2020-2025 (held out),VIX (robustness),1486,82.1,28.33,9.76,8.14

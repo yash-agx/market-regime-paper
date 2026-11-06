@@ -1,20 +1,28 @@
 # Python
 __pycache__/
 *.py[cod]
-.venv/
-venv/
 .pytest_cache/
 .ipynb_checkpoints/
 
-# Editors and tools
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Secrets
+.env
+
+# Downloaded price data (rebuilt by the Phase 1 script)
+data/raw/*
+data/processed/*
+
+# Keep the hand-added files that can't be re-downloaded
+!data/raw/tbill_91d.csv
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# OS and editor files
+.DS_Store
+Thumbs.db
 .vscode/
-.vs/
 .idea/
-
-
-# Large or throwaway data (processed result CSVs and figures are kept on purpose;
-# add the raw price-data cache here once it exists, since it is re-downloadable)
-*.zip
-*.7z
-*.tar.gz
-*.log

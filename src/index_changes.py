@@ -70,20 +70,61 @@ def is_real_pdf(url: str, timeout: int = 20) -> int | None:
     return None
 
 
-def fetch_pdf_text(url: str) -> str:
-    """Download (and cache) a press release, returning its text."""
-    from pypdf import PdfReader
-
+def download_pdf(url: str):
+    """Download a press release to the local cache, returning its path."""
     PDF_CACHE.mkdir(parents=True, exist_ok=True)
     path = PDF_CACHE / url.rsplit("/", 1)[-1]
-    if not path.exists():
-        req = urllib.request.Request(url, headers={"User-Agent": UA})
-        with urllib.request.urlopen(req, timeout=60) as resp:
-            if "pdf" not in resp.headers.get("Content-Type", "").lower():
-                raise ValueError(f"not a PDF: {url}")
-            path.write_bytes(resp.read())
+    if path.exists() and path.stat().st_size > 0:
+        return path
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    with urllib.request.urlopen(req, timeout=90) as resp:
+        if "pdf" not in resp.headers.get("Content-Type", "").lower():
+            raise ValueError(f"not a PDF: {url}")
+        data = resp.read()
+    path.write_bytes(data)
+    return path
+
+
+def fetch_pdf_text(url: str) -> str:
+    """Quick text extraction, used only as a cheap screen. Reading order is
+    NOT reliable - see fetch_pdf_layout_text for the one that is."""
+    from pypdf import PdfReader
+
+    path = download_pdf(url)
     reader = PdfReader(io.BytesIO(path.read_bytes()))
     return "\n".join((p.extract_text() or "") for p in reader.pages)
+
+
+def fetch_pdf_layout_text(url: str, line_tol: float = 3.0) -> str:
+    """Text rebuilt from word coordinates, so lines come out in reading order.
+
+    The pre-2018 press releases need this. Their headings and their tables are
+    separate objects in the PDF, and a plain text extraction returns all the
+    headings first and all the tables afterwards, detached from each other:
+
+        (1) S&P CNX Nifty Index
+        The following company is being excluded:
+        ... (two more index headings) ...
+        Sr. No. Company Name
+        1 Satyam Computer Services Ltd.      <- which index is this under?
+
+    Grouping words by their vertical position puts each table back under its
+    own heading, which is the only way to attribute a change to the right index
+    without guessing.
+    """
+    import pdfplumber
+
+    path = download_pdf(url)
+    out: list[str] = []
+    with pdfplumber.open(path) as pdf:
+        for page in pdf.pages:
+            rows: dict[float, list[tuple[float, str]]] = {}
+            for w in page.extract_words():
+                key = round(w["top"] / line_tol) * line_tol
+                rows.setdefault(key, []).append((w["x0"], w["text"]))
+            for key in sorted(rows):
+                out.append(" ".join(t for _, t in sorted(rows[key])))
+    return "\n".join(out)
 
 
 # --------------------------------------------------------------------------
@@ -97,14 +138,47 @@ DATE_RE = re.compile(
 EFFECTIVE_RE = re.compile(
     r"effective\s+from\s+(" + "|".join(MONTHS) + r")\s+(\d{1,2})\s*,?\s*(\d{4})",
     re.IGNORECASE)
-# "1 Shriram Finance Ltd. SHRIRAMFIN" -> name, symbol
-ROW_RE = re.compile(r"^\s*(\d{1,2})\s+(.+?)\s+([A-Z][A-Z0-9&\-]{1,19})\s*$")
-# A heading such as "1) Nifty 50" or "a) Nifty 50" - the numbering style changes
-# between years. The end-anchor is what keeps "Nifty 500" and "Nifty Next 50"
-# from matching, so do not loosen it.
+# The announcement date sits in the header in modern releases ("Mumbai,
+# February 28, 2024") but at the FOOT of the pre-2018 ones ("Date: January 7,
+# 2009."). Looking only at the header picks up the effective date by mistake
+# and silently reports a release as announced on the day it took effect.
+DATED_RE = re.compile(
+    r"Date\s*:\s*(" + "|".join(MONTHS) + r")\s+(\d{1,2})\s*,?\s*(\d{4})",
+    re.IGNORECASE)
+MUMBAI_RE = re.compile(
+    r"Mumbai\s*,\s*(" + "|".join(MONTHS) + r")\s+(\d{1,2})\s*,?\s*(\d{4})",
+    re.IGNORECASE)
+# "1 Shriram Finance Ltd. SHRIRAMFIN" -> name, symbol (2018 onwards).
+# The serial number is optional because coordinate-based extraction sometimes
+# puts it on its own line:
+#     Divi's Laboratories Ltd. DIVISLAB
+#     1
+#     2 LTIMindtree Ltd. LTIM
+# Requiring it dropped the first row of many tables - and, because an
+# unnumbered row also looks like prose, ended the table early and lost the
+# rest of it too.
+ROW_RE = re.compile(r"^\s*(?:(\d{1,2})\s+)?(.+?)\s+([A-Z][A-Z0-9&\-]{1,19})\s*$")
+BARE_NUMBER_RE = re.compile(r"^\s*\d{1,2}\s*$")
+# Lines that end a table rather than continue it.
+TABLE_END_RE = re.compile(
+    r"^\s*(note\s*:|the above|these changes|disclaimer|for further|place\s*:|date\s*:)",
+    re.IGNORECASE)
+# "1 Satyam Computer Services Ltd." -> name only. Before 2018 the tables have
+# no Symbol column at all, so the ticker has to be resolved separately.
+NAME_ONLY_ROW_RE = re.compile(r"^\s*(\d{1,2})\s+([A-Za-z][A-Za-z0-9&.,'()/\- ]{3,80})\s*$")
+
+# The index has been renamed twice: "S&P CNX Nifty" until late 2013, then
+# "CNX Nifty", then "Nifty 50" from 2015. A parser that only knows the current
+# name silently finds nothing before 2014 - which is most of the study period.
+#
+# The end-anchor is what keeps the near-misses out, and they are everywhere in
+# these documents: "CNX Nifty Junior", "Nifty Next 50", "S&P CNX 500",
+# "Nifty 500", "CNX 100". Do not loosen it.
+_PREFIX = r"^\s*\(?(?:\d+|[a-zA-Z])[).]\s*"
+_NIFTY_NAMES = r"(?:S\s*&\s*P\s+)?CNX\s+Nifty|Nifty\s*50"
 NIFTY50_HEAD_RE = re.compile(
-    r"^\s*(?:\d+|[a-zA-Z])[).]\s*Nifty\s*50(?:\s+Index)?\s*$", re.IGNORECASE)
-ANY_HEAD_RE = re.compile(r"^\s*(?:\d+|[a-zA-Z])[).]\s*\S")
+    _PREFIX + r"(?:" + _NIFTY_NAMES + r")(?:\s+Index)?\s*$", re.IGNORECASE)
+ANY_HEAD_RE = re.compile(_PREFIX + r"\S")
 
 
 def _parse_date(match: re.Match) -> dt.date:
@@ -137,6 +211,16 @@ def nifty50_sections(lines: list[str]) -> list[list[str]]:
     return sections
 
 
+def _plausible_company(name: str) -> bool:
+    """Reject prose that happens to end in capitals (the explanatory notes do)."""
+    if not name or len(name) > 70:
+        return False
+    low = name.lower()
+    return not any(w in low for w in
+                   ("crore", "market capitalization", "eligible", "pursuant",
+                    "replacement", "index", "average"))
+
+
 def _collect(section: list[str], marker: str) -> list[tuple[str, str]]:
     """Rows following 'being excluded:' / 'being included:' until the list ends."""
     out = []
@@ -150,15 +234,23 @@ def _collect(section: list[str], marker: str) -> list[tuple[str, str]]:
             continue
         if not ln or low.startswith("sr. no") or low.startswith("sr no"):
             continue
-        m = ROW_RE.match(ln)
-        if m:
-            name = m.group(2).strip(" .")
-            out.append((name, m.group(3)))
-            continue
-        # a sentence or a new sub-heading means the table is over
-        if len(ln) > 0 and ("being included" in low or "being excluded" in low
-                            or ln[0].isalpha()):
+        if BARE_NUMBER_RE.match(ln):
+            continue                       # a serial number stranded on its own line
+        if TABLE_END_RE.match(ln) or "being included" in low or "being excluded" in low:
             collecting = False
+            continue
+
+        m = ROW_RE.match(ln)
+        if m and _plausible_company(m.group(2)):
+            out.append((m.group(2).strip(" ."), m.group(3)))
+            continue
+        m = NAME_ONLY_ROW_RE.match(ln)
+        if m and _plausible_company(m.group(2)):
+            # Pre-2018 tables carry no Symbol column; the ticker is resolved later.
+            out.append((m.group(2).strip(" ."), ""))
+            continue
+        # Anything else inside a table region is ignored rather than treated as
+        # the end of it - an unrecognised line used to truncate the table.
     return out
 
 
@@ -180,12 +272,33 @@ def parse_release(text: str, url: str) -> list[Change]:
     if not sections:
         return []
 
+    whole = "\n".join(lines)
     head = "\n".join(lines[:60])
-    eff = EFFECTIVE_RE.search(head)
-    ann = DATE_RE.search(head)
-    if eff is None or ann is None:
+    eff = EFFECTIVE_RE.search(whole)
+    if eff is None:
         return []
-    effective, announced = _parse_date(eff), _parse_date(ann)
+    effective = _parse_date(eff)
+
+    # Prefer an explicit "Mumbai, <date>" or "Date: <date>"; fall back to the
+    # first date in the header that is not the effective date itself. An
+    # announcement can never be later than the change it announces, so that is
+    # checked rather than assumed.
+    announced = None
+    for pattern, scope in ((MUMBAI_RE, head), (DATED_RE, whole), (MUMBAI_RE, whole)):
+        m = pattern.search(scope)
+        if m:
+            cand = _parse_date(m)
+            if cand <= effective:
+                announced = cand
+                break
+    if announced is None:
+        for m in DATE_RE.finditer(head):
+            cand = _parse_date(m)
+            if cand <= effective and cand != effective:
+                announced = cand
+                break
+    if announced is None:
+        announced = effective
 
     quote = next((ln for ln in lines[:60] if "effective from" in ln.lower()), "")
     out, seen = [], set()

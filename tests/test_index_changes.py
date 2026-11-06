@@ -78,6 +78,158 @@ Sr. No. Company Name Symbol
 """
 
 
+RELEASE_2009 = """
+IISL
+INDIA INDEX SERVICES & PRODUCTS LIMITED
+PRESS RELEASE
+
+The Index Maintenance Sub-Committee has decided to make the following changes in various
+indices during its review. These changes shall become effective from January 12, 2009.
+
+(1) S&P CNX Nifty Index
+
+The following company is being excluded:
+
+Sr. No. Company Name
+1 Satyam Computer Services Ltd.
+
+The following company is being included:
+
+Sr. No. Company Name
+1 Reliance Capital Ltd.
+
+(2) CNX Nifty Junior Index
+
+The following company is being excluded:
+
+Sr. No. Company Name
+1 Reliance Capital Ltd.
+
+The following company is being included:
+
+Sr. No. Company Name
+1 Glenmark Pharmaceuticals Ltd.
+
+(3) CNX 100 Index
+
+The following company is being excluded:
+
+Sr. No. Company Name
+1 Satyam Computer Services Ltd.
+
+(4) S&P CNX 500 Index
+
+The following company is being excluded:
+
+Sr. No. Company Name
+1 Some Other Co Ltd.
+
+Place: Mumbai
+Date: January 7, 2009.
+"""
+
+
+def test_parses_the_2009_s_and_p_cnx_nifty_name():
+    """The index was called "S&P CNX Nifty" until late 2013. A parser that only
+    knows "Nifty 50" silently finds nothing before 2014."""
+    out = IC.parse_release(RELEASE_2009, "http://example/2009.pdf")
+    assert len(out) == 2
+    by = {c.action: c for c in out}
+    assert by["exclude"].company_name == "Satyam Computer Services Ltd"
+    assert by["include"].company_name == "Reliance Capital Ltd"
+    assert by["exclude"].effective_date == "2009-01-12"
+    assert by["exclude"].announcement_date == "2009-01-07"
+
+
+def test_pre_2018_rows_have_no_symbol_and_say_so():
+    out = IC.parse_release(RELEASE_2009, "http://example/2009.pdf")
+    assert all(c.symbol == "" for c in out)
+
+
+def test_cnx_nifty_junior_is_not_mistaken_for_the_nifty():
+    """The nastiest near-miss in the old documents."""
+    out = IC.parse_release(RELEASE_2009, "http://example/2009.pdf")
+    names = {c.company_name for c in out}
+    assert "Glenmark Pharmaceuticals Ltd" not in names
+
+
+def test_cnx_100_and_s_and_p_cnx_500_are_not_the_nifty():
+    out = IC.parse_release(RELEASE_2009, "http://example/2009.pdf")
+    assert "Some Other Co Ltd" not in {c.company_name for c in out}
+
+
+@pytest.mark.parametrize("heading,expected", [
+    ("(1) S&P CNX Nifty Index", True),
+    ("(2) CNX Nifty Index", True),
+    ("1) Nifty 50", True),
+    ("a) Nifty 50", True),
+    ("b) Nifty 50 Index", True),
+    ("(2) CNX Nifty Junior Index", False),
+    ("2) Nifty Next 50", False),
+    ("b) Nifty 500", False),
+    ("(4) S&P CNX 500 Index", False),
+    ("(3) CNX 100 Index", False),
+    ("1) Nifty Bank", False),
+    ("The above also applies to Nifty50 Equal Weight index.", False),
+])
+def test_index_heading_recognition(heading, expected):
+    assert bool(IC.NIFTY50_HEAD_RE.match(heading)) is expected
+
+
+RELEASE_DETACHED_SERIALS = """
+PRESS RELEASE
+Mumbai, August 23, 2024
+effective from September 30, 2024 (close of September 27, 2024).
+
+a) Nifty 50
+The following companies are being excluded:
+Sr. No. Company Name Symbol
+Divi's Laboratories Ltd. DIVISLAB
+1
+2 LTIMindtree Ltd. LTIM
+The following companies are being included:
+Sr. No. Company Name Symbol
+Bharat Electronics Ltd. BEL
+1
+2 Trent Ltd. TRENT
+Note:
+1. Trent Ltd. (average free-float market capitalization Rs. 99,364 crores) and Bharat Electronics Ltd.
+have been included in Nifty 50 index as the 6-month average free-float market capitalization
+b) Nifty Next 50
+The following companies are being excluded:
+Sr. No. Company Name Symbol
+1 Berger Paints India Ltd. BERGEPAINT
+"""
+
+
+def test_a_serial_number_stranded_on_its_own_line_does_not_lose_the_row():
+    """Coordinate extraction splits some rows, putting the serial number on its
+    own line. Requiring it dropped the first row of the table, and because an
+    unnumbered row looks like prose, it also truncated the rest."""
+    out = IC.parse_release(RELEASE_DETACHED_SERIALS, "http://example/f.pdf")
+    assert {c.symbol for c in out if c.action == "exclude"} == {"DIVISLAB", "LTIM"}
+    assert {c.symbol for c in out if c.action == "include"} == {"BEL", "TRENT"}
+
+
+def test_explanatory_notes_are_not_mistaken_for_table_rows():
+    """The notes are prose that can end in capitals; they must not become rows."""
+    out = IC.parse_release(RELEASE_DETACHED_SERIALS, "http://example/f.pdf")
+    assert len(out) == 4
+    assert "BERGEPAINT" not in {c.symbol for c in out}
+
+
+@pytest.mark.parametrize("name,ok", [
+    ("Trent Ltd", True),
+    ("Divi's Laboratories Ltd.", True),
+    ("Bharat Petroleum Corporation Ltd.", True),
+    ("1. Trent Ltd. (average free-float market capitalization Rs. 99,364 crores) and", False),
+    ("have been included in Nifty 50 index as the 6-month average free-float", False),
+    ("", False),
+])
+def test_company_name_plausibility(name, ok):
+    assert IC._plausible_company(name) is ok
+
+
 def test_parses_the_2024_numbering_style():
     out = IC.parse_release(RELEASE_2024, "http://example/a.pdf")
     assert len(out) == 2

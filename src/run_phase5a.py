@@ -78,20 +78,46 @@ def main() -> None:
     if args.discover_only:
         return
 
+    # ---- download everything first, in parallel ---------------------------
+    print(f"\nDownloading/caching {len(index)} PDFs...")
+
+    def prefetch(url: str):
+        try:
+            IC.download_pdf(url)
+        except Exception:                   # noqa: BLE001 - retried below
+            pass
+
+    with cf.ThreadPoolExecutor(max_workers=8) as ex:
+        for i, _ in enumerate(ex.map(prefetch, index["url"].tolist()), 1):
+            if i % 200 == 0:
+                print(f"  {i}/{len(index)} fetched")
+
     # ---- parse every release ----------------------------------------------
-    all_changes, failed, with_changes = [], [], 0
+    # Two passes: a cheap pypdf screen to find documents that mention the index
+    # and a replacement at all, then the slower coordinate-based extraction on
+    # those, which is the only one whose reading order can be trusted.
+    all_changes, failed, with_changes, screened = [], [], 0, 0
     for i, row in enumerate(index.itertuples(), 1):
         try:
-            text = IC.fetch_pdf_text(row.url)
+            quick = IC.fetch_pdf_text(row.url).lower()
         except Exception as err:            # noqa: BLE001 - record and continue
-            failed.append({"url": row.url, "error": str(err)})
+            failed.append({"url": row.url, "error": f"screen: {err}"})
+            continue
+        if "nifty" not in quick or ("being excluded" not in quick
+                                    and "being included" not in quick):
+            continue
+        screened += 1
+        try:
+            text = IC.fetch_pdf_layout_text(row.url)
+        except Exception as err:            # noqa: BLE001
+            failed.append({"url": row.url, "error": f"layout: {err}"})
             continue
         changes = IC.parse_release(text, row.url)
         if changes:
             with_changes += 1
             all_changes.extend(changes)
-        if i % 25 == 0:
-            print(f"  parsed {i}/{len(index)}, "
+        if screened % 25 == 0:
+            print(f"  {i}/{len(index)} checked, {screened} candidates, "
                   f"{len(all_changes)} Nifty 50 changes so far")
 
     df = IC.changes_to_frame(all_changes)
@@ -99,6 +125,7 @@ def main() -> None:
 
     print(f"\n{'=' * 90}\nPHASE 5a: Nifty 50 index-change list\n{'=' * 90}")
     print(f"\n  Press releases checked:        {len(index)}")
+    print(f"  Passed the keyword screen:      {screened}")
     print(f"  Releases with Nifty 50 changes: {with_changes}")
     print(f"  Download/parse failures:        {len(failed)}")
     print(f"  Individual changes recorded:    {len(df)}")

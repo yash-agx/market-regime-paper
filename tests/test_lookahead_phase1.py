@@ -38,15 +38,47 @@ def _truncated(raw, cut):
 
 
 @pytest.mark.parametrize("cut", TRUNCATION_DATES)
-def test_prices_and_returns_unchanged_by_truncation(raw, full, cut):
+def test_returns_unchanged_by_truncation(raw, full, cut):
+    """Returns are what every signal is built from, so these must match exactly."""
     part = _truncated(raw, cut)
     cut = pd.Timestamp(cut)
 
-    pd.testing.assert_frame_equal(part.prices, full.prices.loc[:cut])
     pd.testing.assert_frame_equal(part.returns, full.returns.loc[:cut])
     pd.testing.assert_series_equal(part.nsei, full.nsei.loc[:cut])
     pd.testing.assert_series_equal(part.nsei_returns, full.nsei_returns.loc[:cut])
     pd.testing.assert_series_equal(part.vix, full.vix.loc[:cut])
+
+
+@pytest.mark.parametrize("cut", TRUNCATION_DATES)
+def test_prices_change_only_by_a_constant_demerger_factor(raw, full, cut):
+    """Price LEVELS may be restated by a demerger; ratios may not.
+
+    When a stock demerges, the history before the ex-date is rescaled so the
+    ex-date stops looking like a crash. Seen from before the ex-date that
+    rescaling has not happened yet, so the two runs disagree on the level - by
+    exactly one constant per ticker, which is what "adjusted close" has always
+    meant and which cancels out of every return and every signal.
+
+    What would be a real leak is a ratio changing, so that is what is tested:
+    the full/truncated price ratio must be constant through time for every
+    ticker, and only tickers with a demerger after the cut may differ at all.
+    """
+    part = _truncated(raw, cut)
+    cut = pd.Timestamp(cut)
+    ratio = (full.prices.loc[:cut] / part.prices).replace([np.inf, -np.inf], np.nan)
+
+    spread = (ratio.max() - ratio.min()).dropna()
+    drifting = spread[spread > 1e-9]
+    assert drifting.empty, f"price ratio moves through time for {list(drifting.index)}"
+
+    level = ratio.mean().dropna()
+    rescaled = set(level[(level - 1).abs() > 1e-9].index)
+    events = D.load_corporate_actions()
+    future = set()
+    if not events.empty:
+        future = {f"{e.symbol}.NS" for e in events.itertuples()
+                  if pd.Timestamp(e.ex_date) > cut}
+    assert rescaled <= future, f"rescaled without a later demerger: {rescaled - future}"
 
 
 @pytest.mark.parametrize("cut", TRUNCATION_DATES)

@@ -133,6 +133,7 @@ def run_strategy(
     runs: pd.DataFrame | None = None,
     cost_bps: tuple[int, ...] = COST_BPS,
     equal_weight_all: bool = False,
+    universe_mask: pd.DataFrame | None = None,
 ) -> StrategyResult:
     """Run one cross-sectional strategy over a list of rebalance windows.
 
@@ -150,7 +151,8 @@ def run_strategy(
 
     for win in wins:
         allowed = D.eligible_at(
-            cleaned, win.rebalance_date, win.formation_start, win.formation_end, runs=runs
+            cleaned, win.rebalance_date, win.formation_start, win.formation_end,
+            runs=runs, universe_mask=universe_mask,
         )
         signal = window_return(prices, win).reindex(allowed).dropna()
         hold = holding_return(prices, win)
@@ -221,7 +223,8 @@ def run_strategy(
 # --------------------------------------------------------------------------
 
 
-def build_all(cleaned: D.CleanedData, study_only: bool = True) -> dict[str, StrategyResult]:
+def build_all(cleaned: D.CleanedData, study_only: bool = True,
+              universe_mask: pd.DataFrame | None = None) -> dict[str, StrategyResult]:
     """Momentum and reversal, long-short and long-only, plus the benchmark."""
     runs = D.flat_run_length(cleaned.prices)
     cal = cleaned.prices.index
@@ -237,19 +240,21 @@ def build_all(cleaned: D.CleanedData, study_only: bool = True) -> dict[str, Stra
 
     out = {}
     out["momentum_ls"] = run_strategy(
-        cleaned, mom_wins, "top", "bottom", "Momentum (long-short)", "monthly", runs)
+        cleaned, mom_wins, "top", "bottom", "Momentum (long-short)", "monthly", runs, universe_mask=universe_mask)
     out["momentum_lo"] = run_strategy(
-        cleaned, mom_wins, "top", None, "Momentum (long-only)", "monthly", runs)
+        cleaned, mom_wins, "top", None, "Momentum (long-only)", "monthly", runs, universe_mask=universe_mask)
     out["reversal_ls"] = run_strategy(
-        cleaned, rev_wins, "bottom", "top", "Reversal (long-short)", "weekly", runs)
+        cleaned, rev_wins, "bottom", "top", "Reversal (long-short)", "weekly", runs, universe_mask=universe_mask)
     out["reversal_lo"] = run_strategy(
-        cleaned, rev_wins, "bottom", None, "Reversal (long-only)", "weekly", runs)
+        cleaned, rev_wins, "bottom", None, "Reversal (long-only)", "weekly", runs, universe_mask=universe_mask)
     out["benchmark_monthly"] = run_strategy(
         cleaned, mom_wins, "top", None, "Equal-weighted Nifty 50 (monthly)", "monthly",
-        runs, equal_weight_all=True)
+        runs, equal_weight_all=True,
+        universe_mask=universe_mask)
     out["benchmark_weekly"] = run_strategy(
         cleaned, rev_wins, "bottom", None, "Equal-weighted Nifty 50 (weekly)", "weekly",
-        runs, equal_weight_all=True)
+        runs, equal_weight_all=True,
+        universe_mask=universe_mask)
     return out
 
 

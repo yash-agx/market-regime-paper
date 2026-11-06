@@ -132,12 +132,24 @@ def test_nestle_is_excluded_from_its_flat_period_and_returns_afterwards(cleaned)
     assert not clean["NESTLEIND.NS"]
 
 
-def test_only_nestle_is_ever_excluded_by_staleness(cleaned):
-    """The rule must remove the vendor artefact and nothing else."""
+def test_staleness_excludes_only_genuinely_stale_stocks(cleaned):
+    """The rule must catch stale prices and nothing else.
+
+    Two stocks qualify on the full panel, and both deserve it:
+      * NESTLEIND.NS - 245 days of an identical vendor-supplied price in 2009,
+        a pure data artefact;
+      * RCOM.NS - Reliance Communications, which stopped trading meaningfully
+        as it collapsed towards insolvency. That is a real market condition
+        rather than a vendor bug, but a price that does not move still cannot
+        support a signal, so excluding it is the right call.
+
+    RCOM only appears now because Version 2 added the stocks that LEFT the
+    index - exactly the population a survivorship-biased universe hides.
+    """
     from src.run_staleness_report import audit
 
     combined = pd.concat(audit(cleaned).values(), ignore_index=True)
-    assert set(combined["ticker"].unique()) <= {"NESTLEIND.NS"}
+    assert set(combined["ticker"].unique()) <= {"NESTLEIND.NS", "RCOM.NS"}
 
 
 def test_eligible_at_applies_the_staleness_rule(cleaned):

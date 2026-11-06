@@ -43,7 +43,23 @@ def load_universe() -> pd.DataFrame:
 
 
 def universe_tickers() -> list[str]:
+    """Version 1: the index members today."""
     return load_universe()["ticker"].tolist()
+
+
+def all_tickers() -> list[str]:
+    """Every ticker either universe needs a price series for.
+
+    Version 1 only needs today's 50. Version 2 needs every stock the index has
+    ever held, so the price panel is built over the union - the extra names are
+    simply never selected when the Version 1 mask is in force.
+    """
+    tickers = list(universe_tickers())
+    v2 = cfg.CONFIG_DIR / "universe_v2_symbols.csv"
+    if v2.exists():
+        extra = [t for t in pd.read_csv(v2)["ticker"] if t not in set(tickers)]
+        tickers += sorted(extra)
+    return tickers
 
 
 # --------------------------------------------------------------------------
@@ -99,7 +115,7 @@ def download_raw(force: bool = False) -> dict[str, pd.DataFrame]:
     if not force and all(p.exists() for p in paths.values()):
         return {k: _read_raw(p) for k, p in paths.items()}
 
-    tickers = universe_tickers()
+    tickers = all_tickers()
     print(
         f"Downloading {len(tickers)} stocks, {cfg.INDEX_TICKER} and {cfg.VIX_TICKER} "
         f"({cfg.DATA_START} to {cfg.DATA_END})..."
@@ -404,10 +420,13 @@ def eligible_at(
     formation_start: pd.Timestamp,
     formation_end: pd.Timestamp | None = None,
     runs: pd.DataFrame | None = None,
+    universe_mask: pd.DataFrame | None = None,
 ) -> pd.Index:
     """Tickers usable for a portfolio formed at `as_of`.
 
-    Four filters, all causal:
+    Five filters, all causal:
+      * in the index on `as_of` (Version 2) - or in today's index (Version 1),
+        which is the survivorship bias Phase 5 exists to measure;
       * at least 252 trading days of history by `as_of`;
       * no more than 5% of the formation window missing;
       * no flat run of >= 10 identical closes intersecting the formation window;
@@ -426,6 +445,14 @@ def eligible_at(
     stale = stale_in_window(runs, formation_start, formation_end)
 
     keep = has_history & (missing <= cfg.MAX_MISSING_FRACTION) & tradable & ~stale
+
+    if universe_mask is not None:
+        # Point-in-time membership: who the index actually held that day.
+        row = universe_mask.loc[:as_of]
+        in_index = (row.iloc[-1] if len(row) else
+                    pd.Series(False, index=universe_mask.columns))
+        keep = keep & in_index.reindex(keep.index).fillna(False).astype(bool)
+
     return cleaned.prices.columns[keep.to_numpy()]
 
 

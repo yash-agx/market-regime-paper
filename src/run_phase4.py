@@ -35,13 +35,30 @@ REGIME_METHODS = {
 }
 
 
-def build_inputs(lo: str, hi: str):
+def universe_mask(kind: str, calendar):
+    """The membership mask for a universe.
+
+    Version 1 is today's 50 members, held constant across all history -
+    that constancy IS the survivorship bias. Version 2 is who the index
+    actually held on each day.
+    """
+    from . import membership as M
+
+    if kind == "v1":
+        tickers = D.universe_tickers()
+        return pd.DataFrame(True, index=calendar, columns=tickers)
+    mat = M.membership_matrix(calendar, M.load_changes(), M.load_aliases())
+    return M.to_tickers(mat)
+
+
+def build_inputs(lo: str, hi: str, universe: str = "v2"):
     """Everything Phase 4 reads, restricted to one date range."""
     cleaned = D.load_processed()
     reg = R.build(cleaned.nsei_returns, cleaned.vix)
     labels = reg.labels
     rf_daily = D.load_riskfree(cleaned.prices.index)
-    strats = S.build_all(cleaned)
+    mask = universe_mask(universe, cleaned.prices.index)
+    strats = S.build_all(cleaned, universe_mask=mask)
 
     mom_wins = W.momentum_windows(cleaned.prices.index)
     rev_wins = W.reversal_windows(cleaned.prices.index)
@@ -87,6 +104,8 @@ def main() -> None:
     ap = argparse.ArgumentParser(description="Phase 4: evaluation")
     ap.add_argument("--holdout", action="store_true",
                     help="run on 2020-2025 instead of 2010-2019")
+    ap.add_argument("--universe", choices=["v1", "v2"], default="v2",
+                    help="v2 = point-in-time membership (headline), v1 = today's members")
     args = ap.parse_args()
 
     if args.holdout:
@@ -97,7 +116,10 @@ def main() -> None:
                               "2010-2019 (in-sample)")
 
     cfg.ensure_dirs()
-    cleaned, labels, sliced, excess = build_inputs(lo, hi)
+    cleaned, labels, sliced, excess = build_inputs(lo, hi, args.universe)
+    uni_label = ('Version 2 (point-in-time, HEADLINE)' if args.universe == 'v2'
+                 else "Version 1 (today's members, survivorship-biased)")
+    tag = f'{tag}_{args.universe}'
     pd.set_option("display.width", 220, "display.max_columns", 60)
 
     print(f"{'=' * 100}\nPHASE 4 - {title}\n{'=' * 100}")

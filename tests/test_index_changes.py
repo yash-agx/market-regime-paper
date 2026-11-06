@@ -444,5 +444,8 @@ def test_committed_changes_have_valid_actions_and_dates(changes):
 
 
 def test_committed_changes_have_no_duplicate_rows(changes):
-    key = ["effective_date", "action", "symbol"]
+    # The company name is part of the key: pre-2012 rows have no symbol at all,
+    # so keying on the symbol alone makes every name-only row in a table look
+    # like a duplicate of the others.
+    key = ["effective_date", "action", "symbol", "company_name"]
     assert not changes.duplicated(key).any()

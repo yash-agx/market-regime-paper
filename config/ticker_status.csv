@@ -1,0 +1,30 @@
+old_symbol,new_symbol,company_name,effective_date,kind,join_price_series,note,source_url,retrieved_on
+KOTAKMAH,KOTAKBANK,Kotak Mahindra Bank Limited,2003-04-21,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+LAKME,TRENT,Trent Limited,2004-06-07,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+JSWSTL,JSWSTEEL,JSW Steel Limited,2005-09-16,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+TISCO,TATASTEEL,Tata Steel Limited,2005-10-17,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+BHARTI,BHARTIARTL,Bharti Airtel Limited,2006-06-19,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+RCVL,RCOM,Reliance Communications Limited,2006-06-30,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+ADANIEXPO,ADANIENT,Adani Enterprises Limited,2006-09-20,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+ZEETELE,ZEEL,Zee Entertainment Enterprises Limited,2007-02-28,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+HINDLEVER,HINDUNILVR,Hindustan Unilever Limited,2007-07-19,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+GUJAMBCEM,AMBUJACEM,Ambuja Cements Limited,2007-07-24,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+UTIBANK,AXISBANK,Axis Bank Limited,2007-08-16,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+HINDALC0,HINDALCO,Hindalco Industries Limited,2007-08-27,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+MICO,BOSCHLTD,Bosch Limited,2008-02-28,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+REL,RELINFRA,Reliance Infrastructure Limited,2008-05-16,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+BAJAUTOFIN,BAJFINANCE,Bajaj Finance Limited,2010-09-29,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+INFOSYSTCH,INFY,Infosys Limited,2011-06-29,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+HEROHONDA,HEROMOTOCO,Hero MotoCorp Limited,2011-08-08,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+MUNDRAPORT,ADANIPORTS,Adani Ports and Special Economic Zone Limited,2012-01-17,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+UNIPHOS,UPL,UPL Limited,2013-10-23,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+SSLT,VEDL,Vedanta Limited,2015-05-07,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+TATAGLOBAL,TATACONSUM,TATA CONSUMER PRODUCTS LIMITED,2020-02-27,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+INFRATEL,INDUSTOWER,Indus Towers Limited,2020-12-18,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+LTI,LTIM,LTIMindtree Limited,2022-12-05,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+SRTRANSFIN,SHRIRAMFIN,Shriram Finance Limited,2022-12-20,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+MCDOWELL-N,UNITDSPR,United Spirits Limited,2024-06-07,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+IBULHSGFIN,SAMMAANCAP,Sammaan Capital Limited,2024-07-26,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+ZOMATO,ETERNAL,ETERNAL LIMITED,2025-04-09,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+TATAMOTORS,TMPV,Tata Motors Passenger Vehicles Limited,2025-10-24,rename_plus_demerger,False,"NSE records a symbol change, but the commercial-vehicle business was demerged: TMPV.NS falls 40.15% on 2025-10-14 with no Yahoo adjustment. Do NOT treat the pre-demerger series as continuous without an adjustment - see phase5a notes.",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06
+LTIM,LTM,LTM Limited,2026-02-27,rename,True,"NSE symbol change; same listing, price series continues",https://nsearchives.nseindia.com/content/equities/symbolchange.csv,2026-11-06

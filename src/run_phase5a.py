@@ -25,27 +25,52 @@ from . import index_changes as IC
 SCAN_START = dt.date(2009, 1, 1)
 
 
-def discover(start: dt.date, end: dt.date, workers: int = 12) -> pd.DataFrame:
-    """Find every date whose press-release URL serves an actual PDF."""
-    days = [start + dt.timedelta(n) for n in range((end - start).days + 1)]
-    print(f"Checking {len(days)} candidate dates "
-          f"({start} to {end})...")
-
-    def check(d: dt.date):
-        url = IC.PRESS_RELEASE_URL.format(d)
+def _probe(urls: list[tuple[str, str]], workers: int, label: str) -> list[dict]:
+    """HEAD every (date, url) pair and keep the ones that serve a real PDF."""
+    def check(item):
+        date, url = item
         size = IC.is_real_pdf(url)
-        return None if size is None else {"date": d.isoformat(), "url": url,
-                                          "bytes": size}
+        return None if size is None else {"date": date, "url": url, "bytes": size}
 
     found = []
     with cf.ThreadPoolExecutor(max_workers=workers) as ex:
-        for i, res in enumerate(ex.map(check, days)):
+        for i, res in enumerate(ex.map(check, urls)):
             if res:
                 found.append(res)
             if i and i % 1000 == 0:
-                print(f"  {i}/{len(days)} checked, {len(found)} real PDFs so far")
-    df = pd.DataFrame(found)
-    print(f"Found {len(df)} real press-release PDFs.")
+                print(f"  [{label}] {i}/{len(urls)} checked, {len(found)} found")
+    return found
+
+
+def discover(start: dt.date, end: dt.date, workers: int = 12) -> pd.DataFrame:
+    """Find every press-release PDF, including same-day revisions.
+
+    NSE sometimes issues more than one release on a date, and the later one
+    gets a "_1" suffix: ind_prs24022022_1.pdf. Those are not optional extras -
+    the March 2022 Nifty 50 replacement (Indian Oil out, Apollo Hospitals in)
+    exists ONLY in the suffixed file. Probing the bare filename alone misses
+    that whole class of document, and the gap is invisible unless the
+    reconstructed membership count is checked against 50.
+    """
+    days = [start + dt.timedelta(n) for n in range((end - start).days + 1)]
+    base = [(d.isoformat(), IC.PRESS_RELEASE_URL.format(d)) for d in days]
+    print(f"Checking {len(base)} candidate dates ({start} to {end})...")
+    found = _probe(base, workers, "base")
+    print(f"  {len(found)} unsuffixed PDFs")
+
+    # Same-day revisions, chased until a suffix comes back empty.
+    suffix, alive = 1, [d.isoformat() for d in days]
+    while alive and suffix <= 4:
+        cand = [(d, IC.PRESS_RELEASE_URL.format(dt.date.fromisoformat(d))
+                 .replace(".pdf", f"_{suffix}.pdf")) for d in alive]
+        got = _probe(cand, workers, f"_{suffix}")
+        print(f"  {len(got)} PDFs with suffix _{suffix}")
+        found.extend(got)
+        alive = [g["date"] for g in got]
+        suffix += 1
+
+    df = pd.DataFrame(found).sort_values(["date", "url"]).reset_index(drop=True)
+    print(f"Found {len(df)} real press-release PDFs in total.")
     return df
 
 
@@ -155,13 +180,25 @@ def main() -> None:
     print(f"\n  Changes by year and action:\n")
     print(by_year.to_string())
 
+    # Rows from the earliest releases have no symbol (those tables have no
+    # Symbol column), so fall back to the company name rather than show a dash.
+    label = df["symbol"].fillna("").where(
+        df["symbol"].fillna("").str.len() > 0, df["company_name"])
+    shown = df.assign(label=label)
+
+    n_no_symbol = int((df["symbol"].fillna("").str.len() == 0).sum())
+    print(f"\n  Rows with no ticker in the source (name only): {n_no_symbol}"
+          f" of {len(df)}")
+
     gaps = sorted(set(df["effective_date"]))
     print(f"\n  {len(gaps)} distinct effective dates:")
     for d in gaps:
-        sub = df[df["effective_date"] == d]
-        out = ", ".join(sub[sub["action"] == "exclude"]["symbol"])
-        inn = ", ".join(sub[sub["action"] == "include"]["symbol"])
-        print(f"    {d}   out: {out or '-':40s} in: {inn or '-'}")
+        sub = shown[shown["effective_date"] == d]
+        out = ", ".join(sub[sub["action"] == "exclude"]["label"])
+        inn = ", ".join(sub[sub["action"] == "include"]["label"])
+        print(f"    {d}")
+        print(f"        out: {out or '-'}")
+        print(f"         in: {inn or '-'}")
 
     print(f"\n  Changes -> {IC.CHANGES_CSV}")
     if failed:

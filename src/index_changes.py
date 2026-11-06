@@ -358,3 +358,74 @@ def changes_to_frame(changes: list[Change]) -> pd.DataFrame:
     if df.empty:
         return df
     return df.sort_values(["effective_date", "action", "symbol"]).reset_index(drop=True)
+
+
+# --------------------------------------------------------------------------
+# resolving company names to tickers (for the pre-2012 name-only rows)
+# --------------------------------------------------------------------------
+
+NSE_SYMBOLCHANGE_URL = "https://nsearchives.nseindia.com/content/equities/symbolchange.csv"
+NSE_EQUITY_LIST_URL = "https://nsearchives.nseindia.com/content/equities/EQUITY_L.csv"
+TICKER_STATUS_CSV = cfg.CONFIG_DIR / "ticker_status.csv"
+
+_SUFFIXES = (" limited", " ltd", " ltd.", " corporation", " corp", " co.", " co",
+             " (india)", " india", " company", " the ", "*")
+
+
+def normalise_company(name: str) -> str:
+    """A comparable form of a company name.
+
+    Names are written inconsistently across fifteen years of press releases
+    ("Dr. Reddy's Laboratories Ltd." vs "Dr Reddys Laboratories Limited"), so
+    matching needs punctuation, case and the usual suffixes stripped.
+    """
+    s = " " + str(name).lower().strip() + " "
+    s = re.sub(r"[.,'’()&\-/*]", " ", s)
+    s = re.sub(r"\s+", " ", s)
+    for suf in ("limited", "ltd", "corporation", "corp", "company", "co",
+                "india", "the"):
+        s = re.sub(rf"\b{suf}\b", " ", s)
+    return re.sub(r"\s+", "", s)
+
+
+def build_name_symbol_map(urls: list[str]) -> dict[str, tuple[str, str]]:
+    """Map normalised company name -> (symbol, source url).
+
+    Built from every table row in every press release that carries BOTH a name
+    and a symbol - including the tables for other indices. A company that was
+    dropped from the Nifty 50 in 2010 (when the tables had no Symbol column)
+    almost always appears with its symbol in some later document, which is how
+    its ticker gets sourced instead of guessed.
+    """
+    out: dict[str, tuple[str, str]] = {}
+    for url in urls:
+        try:
+            text = fetch_pdf_layout_text(url)
+        except Exception:                 # noqa: BLE001
+            continue
+        for ln in _clean(text):
+            m = ROW_RE.match(ln)
+            if not m:
+                continue
+            name, symbol = m.group(2).strip(" ."), m.group(3)
+            if not _plausible_company(name):
+                continue
+            key = normalise_company(name)
+            if len(key) >= 4:
+                out.setdefault(key, (symbol, url))
+    return out
+
+
+def load_nse_equity_names() -> dict[str, tuple[str, str]]:
+    """Name -> (symbol, source) for every currently listed NSE equity."""
+    path = cfg.RAW_DIR / "nse_equity_list.csv"
+    if not path.exists():
+        return {}
+    df = pd.read_csv(path)
+    df.columns = [c.strip() for c in df.columns]
+    out = {}
+    for _, row in df.iterrows():
+        key = normalise_company(row["NAME OF COMPANY"])
+        if len(key) >= 4:
+            out.setdefault(key, (str(row["SYMBOL"]).strip(), NSE_EQUITY_LIST_URL))
+    return out

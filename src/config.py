@@ -1,7 +1,8 @@
 """Paths, dates and frozen constants shared by every phase.
 
 Nothing here is a result. Changing a number here changes the experiment, so these
-values mirror the spec in the README and should not be edited without updating it.
+values mirror the frozen spec described in the README and should not be edited
+without updating it there too.
 """
 
 from __future__ import annotations

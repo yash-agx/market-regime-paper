@@ -1,0 +1,13 @@
+universe,period,lookback,worst_high_vol_month_pct,worst_month_date
+v2,insample,3-1,-14.02,2015-09-30
+v2,holdout,3-1,-13.74,2022-04-29
+v2,insample,6-1,-23.93,2011-12-30
+v2,holdout,6-1,-17.69,2020-07-31
+v2,insample,12-1,-30.45,2011-12-30
+v2,holdout,12-1,-17.09,2020-10-30
+v1,insample,3-1,-14.81,2011-12-30
+v1,holdout,3-1,-14.38,2020-05-29
+v1,insample,6-1,-25.99,2011-12-30
+v1,holdout,6-1,-23.35,2020-02-28
+v1,insample,12-1,-30.13,2011-12-30
+v1,holdout,12-1,-23.5,2020-10-30

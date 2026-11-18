@@ -1,0 +1,145 @@
+period,lookback,regime_method,cost,strategy,n,nw_lags,mean_low_vol_pct,diff_high_minus_low_pct,t_stat,p_value_two_sided,r_squared
+insample,3-1,A: realised vol (main),gross,Momentum 3-1 (long-short),120,4,0.378,-1.9781,-1.964,0.0495,0.0248
+insample,3-1,A: realised vol (main),10bps,Momentum 3-1 (long-short),120,4,0.1412,-1.9594,-1.947,0.0515,0.0244
+insample,3-1,A: realised vol (main),20bps,Momentum 3-1 (long-short),120,4,-0.0956,-1.9408,-1.93,0.0536,0.0239
+insample,3-1,A: realised vol (main),30bps,Momentum 3-1 (long-short),120,4,-0.3324,-1.9221,-1.912,0.0558,0.0235
+insample,3-1,VIX (main robustness),gross,Momentum 3-1 (long-short),120,4,0.0612,-0.715,-0.403,0.6873,0.0023
+insample,3-1,VIX (main robustness),10bps,Momentum 3-1 (long-short),120,4,-0.1701,-0.7264,-0.41,0.6816,0.0023
+insample,3-1,VIX (main robustness),20bps,Momentum 3-1 (long-short),120,4,-0.4015,-0.7379,-0.418,0.6759,0.0024
+insample,3-1,VIX (main robustness),30bps,Momentum 3-1 (long-short),120,4,-0.6329,-0.7493,-0.426,0.6703,0.0025
+insample,3-1,B: HMM (underpowered),gross,Momentum 3-1 (long-short),120,4,-0.0781,5.2819,12.678,0.0,0.0089
+insample,3-1,B: HMM (underpowered),10bps,Momentum 3-1 (long-short),120,4,-0.3112,5.3039,12.721,0.0,0.009
+insample,3-1,B: HMM (underpowered),20bps,Momentum 3-1 (long-short),120,4,-0.5443,5.3259,12.762,0.0,0.009
+insample,3-1,B: HMM (underpowered),30bps,Momentum 3-1 (long-short),120,4,-0.7774,5.3479,12.802,0.0,0.0091
+insample,6-1,A: realised vol (main),gross,Momentum 6-1 (long-short),120,4,0.3992,-1.2735,-1.006,0.3144,0.0087
+insample,6-1,A: realised vol (main),10bps,Momentum 6-1 (long-short),120,4,0.2408,-1.2698,-1.003,0.3159,0.0087
+insample,6-1,A: realised vol (main),20bps,Momentum 6-1 (long-short),120,4,0.0825,-1.2661,-1.0,0.3174,0.0086
+insample,6-1,A: realised vol (main),30bps,Momentum 6-1 (long-short),120,4,-0.0759,-1.2624,-0.997,0.3189,0.0086
+insample,6-1,VIX (main robustness),gross,Momentum 6-1 (long-short),120,4,0.3998,-1.9944,-1.137,0.2554,0.015
+insample,6-1,VIX (main robustness),10bps,Momentum 6-1 (long-short),120,4,0.2432,-2.0017,-1.144,0.2526,0.0151
+insample,6-1,VIX (main robustness),20bps,Momentum 6-1 (long-short),120,4,0.0866,-2.009,-1.151,0.2497,0.0152
+insample,6-1,VIX (main robustness),30bps,Momentum 6-1 (long-short),120,4,-0.0701,-2.0163,-1.158,0.2469,0.0153
+insample,6-1,B: HMM (underpowered),gross,Momentum 6-1 (long-short),120,4,0.1032,3.6798,8.958,0.0,0.0037
+insample,6-1,B: HMM (underpowered),10bps,Momentum 6-1 (long-short),120,4,-0.0546,3.7035,9.008,0.0,0.0037
+insample,6-1,B: HMM (underpowered),20bps,Momentum 6-1 (long-short),120,4,-0.2124,3.7271,9.057,0.0,0.0038
+insample,6-1,B: HMM (underpowered),30bps,Momentum 6-1 (long-short),120,4,-0.3702,3.7508,9.104,0.0,0.0038
+insample,12-1,A: realised vol (main),gross,Momentum 12-1 (long-short),120,4,1.4621,-2.5144,-1.969,0.049,0.0207
+insample,12-1,A: realised vol (main),10bps,Momentum 12-1 (long-short),120,4,1.3567,-2.5214,-1.975,0.0483,0.0208
+insample,12-1,A: realised vol (main),20bps,Momentum 12-1 (long-short),120,4,1.2513,-2.5283,-1.981,0.0476,0.0209
+insample,12-1,A: realised vol (main),30bps,Momentum 12-1 (long-short),120,4,1.1459,-2.5353,-1.987,0.047,0.021
+insample,12-1,VIX (main robustness),gross,Momentum 12-1 (long-short),120,4,1.5525,-4.6069,-2.85,0.0044,0.0487
+insample,12-1,VIX (main robustness),10bps,Momentum 12-1 (long-short),120,4,1.4468,-4.6157,-2.855,0.0043,0.0488
+insample,12-1,VIX (main robustness),20bps,Momentum 12-1 (long-short),120,4,1.3411,-4.6244,-2.86,0.0042,0.049
+insample,12-1,VIX (main robustness),30bps,Momentum 12-1 (long-short),120,4,1.2355,-4.6331,-2.865,0.0042,0.0491
+insample,12-1,B: HMM (underpowered),gross,Momentum 12-1 (long-short),120,4,0.9127,3.0625,5.647,0.0,0.0015
+insample,12-1,B: HMM (underpowered),10bps,Momentum 12-1 (long-short),120,4,0.8059,3.0558,5.635,0.0,0.0015
+insample,12-1,B: HMM (underpowered),20bps,Momentum 12-1 (long-short),120,4,0.6991,3.0491,5.623,0.0,0.0015
+insample,12-1,B: HMM (underpowered),30bps,Momentum 12-1 (long-short),120,4,0.5923,3.0424,5.611,0.0,0.0015
+insample,1w,A: realised vol (main),gross,Reversal 1w (long-short),521,5,0.2645,0.4953,1.635,0.102,0.0067
+insample,1w,A: realised vol (main),10bps,Reversal 1w (long-short),521,5,-0.0541,0.4892,1.624,0.1043,0.0065
+insample,1w,A: realised vol (main),20bps,Reversal 1w (long-short),521,5,-0.3727,0.483,1.613,0.1066,0.0063
+insample,1w,A: realised vol (main),30bps,Reversal 1w (long-short),521,5,-0.6912,0.4769,1.602,0.1091,0.0061
+insample,1w,VIX (main robustness),gross,Reversal 1w (long-short),521,5,0.3353,0.2748,0.596,0.5512,0.0014
+insample,1w,VIX (main robustness),10bps,Reversal 1w (long-short),521,5,0.0159,0.2712,0.591,0.5548,0.0014
+insample,1w,VIX (main robustness),20bps,Reversal 1w (long-short),521,5,-0.3035,0.2675,0.585,0.5585,0.0014
+insample,1w,VIX (main robustness),30bps,Reversal 1w (long-short),521,5,-0.6229,0.2638,0.58,0.5623,0.0013
+insample,1w,B: HMM (underpowered),gross,Reversal 1w (long-short),521,5,0.3586,0.7179,0.455,0.6493,0.0017
+insample,1w,B: HMM (underpowered),10bps,Reversal 1w (long-short),521,5,0.0387,0.7199,0.458,0.647,0.0017
+insample,1w,B: HMM (underpowered),20bps,Reversal 1w (long-short),521,5,-0.2813,0.722,0.461,0.6447,0.0017
+insample,1w,B: HMM (underpowered),30bps,Reversal 1w (long-short),521,5,-0.6013,0.724,0.464,0.6424,0.0017
+insample,2w,A: realised vol (main),gross,Reversal 2w (long-short),521,5,0.1446,0.4482,1.414,0.1574,0.0059
+insample,2w,A: realised vol (main),10bps,Reversal 2w (long-short),521,5,-0.0829,0.4412,1.398,0.1621,0.0057
+insample,2w,A: realised vol (main),20bps,Reversal 2w (long-short),521,5,-0.3105,0.4341,1.382,0.1671,0.0055
+insample,2w,A: realised vol (main),30bps,Reversal 2w (long-short),521,5,-0.5381,0.4271,1.365,0.1723,0.0053
+insample,2w,VIX (main robustness),gross,Reversal 2w (long-short),521,5,0.1992,0.3168,0.672,0.5015,0.0021
+insample,2w,VIX (main robustness),10bps,Reversal 2w (long-short),521,5,-0.0295,0.3136,0.669,0.5038,0.002
+insample,2w,VIX (main robustness),20bps,Reversal 2w (long-short),521,5,-0.2582,0.3105,0.665,0.5061,0.002
+insample,2w,VIX (main robustness),30bps,Reversal 2w (long-short),521,5,-0.4869,0.3073,0.661,0.5086,0.0019
+insample,2w,B: HMM (underpowered),gross,Reversal 2w (long-short),521,5,0.2044,1.8541,1.25,0.2113,0.0121
+insample,2w,B: HMM (underpowered),10bps,Reversal 2w (long-short),521,5,-0.0244,1.8413,1.243,0.2138,0.0119
+insample,2w,B: HMM (underpowered),20bps,Reversal 2w (long-short),521,5,-0.2533,1.8286,1.236,0.2164,0.0117
+insample,2w,B: HMM (underpowered),30bps,Reversal 2w (long-short),521,5,-0.4822,1.8159,1.229,0.219,0.0115
+insample,1m,A: realised vol (main),gross,Reversal 1m (long-short),521,5,0.1571,0.453,1.655,0.098,0.0052
+insample,1m,A: realised vol (main),10bps,Reversal 1m (long-short),521,5,-0.0063,0.4465,1.639,0.1012,0.0051
+insample,1m,A: realised vol (main),20bps,Reversal 1m (long-short),521,5,-0.1697,0.44,1.623,0.1046,0.0049
+insample,1m,A: realised vol (main),30bps,Reversal 1m (long-short),521,5,-0.3332,0.4335,1.607,0.1082,0.0048
+insample,1m,VIX (main robustness),gross,Reversal 1m (long-short),521,5,0.1741,0.5921,1.567,0.1171,0.0063
+insample,1m,VIX (main robustness),10bps,Reversal 1m (long-short),521,5,0.0105,0.5833,1.545,0.1224,0.0061
+insample,1m,VIX (main robustness),20bps,Reversal 1m (long-short),521,5,-0.1531,0.5745,1.523,0.1278,0.0059
+insample,1m,VIX (main robustness),30bps,Reversal 1m (long-short),521,5,-0.3167,0.5658,1.5,0.1336,0.0057
+insample,1m,B: HMM (underpowered),gross,Reversal 1m (long-short),521,5,0.2364,0.9806,0.859,0.3902,0.003
+insample,1m,B: HMM (underpowered),10bps,Reversal 1m (long-short),521,5,0.0717,0.9728,0.853,0.3935,0.0029
+insample,1m,B: HMM (underpowered),20bps,Reversal 1m (long-short),521,5,-0.093,0.965,0.847,0.3969,0.0028
+insample,1m,B: HMM (underpowered),30bps,Reversal 1m (long-short),521,5,-0.2577,0.9572,0.841,0.4004,0.0028
+holdout,3-1,A: realised vol (main),gross,Momentum 3-1 (long-short),71,3,-0.3342,-0.1733,-0.139,0.8896,0.0003
+holdout,3-1,A: realised vol (main),10bps,Momentum 3-1 (long-short),71,3,-0.5703,-0.1756,-0.14,0.8883,0.0003
+holdout,3-1,A: realised vol (main),20bps,Momentum 3-1 (long-short),71,3,-0.8065,-0.178,-0.142,0.887,0.0003
+holdout,3-1,A: realised vol (main),30bps,Momentum 3-1 (long-short),71,3,-1.0426,-0.1804,-0.144,0.8857,0.0003
+holdout,3-1,VIX (main robustness),gross,Momentum 3-1 (long-short),71,3,-0.6135,0.5349,0.42,0.6744,0.0026
+holdout,3-1,VIX (main robustness),10bps,Momentum 3-1 (long-short),71,3,-0.8508,0.5356,0.421,0.674,0.0026
+holdout,3-1,VIX (main robustness),20bps,Momentum 3-1 (long-short),71,3,-1.0882,0.5364,0.421,0.6736,0.0026
+holdout,3-1,VIX (main robustness),30bps,Momentum 3-1 (long-short),71,3,-1.3256,0.5371,0.422,0.6733,0.0027
+holdout,3-1,B: HMM (underpowered),gross,Momentum 3-1 (long-short),71,3,-0.3002,-1.0378,-0.606,0.5444,0.0037
+holdout,3-1,B: HMM (underpowered),10bps,Momentum 3-1 (long-short),71,3,-0.5373,-1.038,-0.61,0.5418,0.0037
+holdout,3-1,B: HMM (underpowered),20bps,Momentum 3-1 (long-short),71,3,-0.7743,-1.0382,-0.614,0.5392,0.0037
+holdout,3-1,B: HMM (underpowered),30bps,Momentum 3-1 (long-short),71,3,-1.0114,-1.0384,-0.618,0.5366,0.0037
+holdout,6-1,A: realised vol (main),gross,Momentum 6-1 (long-short),71,3,-0.6432,0.0212,0.02,0.9841,0.0
+holdout,6-1,A: realised vol (main),10bps,Momentum 6-1 (long-short),71,3,-0.7985,0.0169,0.016,0.9873,0.0
+holdout,6-1,A: realised vol (main),20bps,Momentum 6-1 (long-short),71,3,-0.9538,0.0126,0.012,0.9906,0.0
+holdout,6-1,A: realised vol (main),30bps,Momentum 6-1 (long-short),71,3,-1.1091,0.0083,0.008,0.9938,0.0
+holdout,6-1,VIX (main robustness),gross,Momentum 6-1 (long-short),71,3,-0.4146,-0.5585,-0.513,0.6082,0.0027
+holdout,6-1,VIX (main robustness),10bps,Momentum 6-1 (long-short),71,3,-0.5692,-0.5645,-0.518,0.6045,0.0027
+holdout,6-1,VIX (main robustness),20bps,Momentum 6-1 (long-short),71,3,-0.7239,-0.5705,-0.523,0.6009,0.0028
+holdout,6-1,VIX (main robustness),30bps,Momentum 6-1 (long-short),71,3,-0.8785,-0.5765,-0.528,0.5973,0.0028
+holdout,6-1,B: HMM (underpowered),gross,Momentum 6-1 (long-short),71,3,-0.4479,-1.8969,-1.094,0.2739,0.0114
+holdout,6-1,B: HMM (underpowered),10bps,Momentum 6-1 (long-short),71,3,-0.5993,-1.9534,-1.123,0.2616,0.0121
+holdout,6-1,B: HMM (underpowered),20bps,Momentum 6-1 (long-short),71,3,-0.7507,-2.0098,-1.151,0.2498,0.0128
+holdout,6-1,B: HMM (underpowered),30bps,Momentum 6-1 (long-short),71,3,-0.9021,-2.0663,-1.179,0.2385,0.0135
+holdout,12-1,A: realised vol (main),gross,Momentum 12-1 (long-short),71,3,0.2691,-1.32,-1.17,0.2419,0.0129
+holdout,12-1,A: realised vol (main),10bps,Momentum 12-1 (long-short),71,3,0.1616,-1.3254,-1.174,0.2403,0.013
+holdout,12-1,A: realised vol (main),20bps,Momentum 12-1 (long-short),71,3,0.0541,-1.3309,-1.178,0.2388,0.0132
+holdout,12-1,A: realised vol (main),30bps,Momentum 12-1 (long-short),71,3,-0.0534,-1.3364,-1.182,0.2373,0.0133
+holdout,12-1,VIX (main robustness),gross,Momentum 12-1 (long-short),71,3,-0.0678,-0.4658,-0.327,0.7437,0.0016
+holdout,12-1,VIX (main robustness),10bps,Momentum 12-1 (long-short),71,3,-0.1726,-0.478,-0.336,0.737,0.0017
+holdout,12-1,VIX (main robustness),20bps,Momentum 12-1 (long-short),71,3,-0.2774,-0.4902,-0.345,0.7303,0.0018
+holdout,12-1,VIX (main robustness),30bps,Momentum 12-1 (long-short),71,3,-0.3822,-0.5024,-0.354,0.7236,0.0019
+holdout,12-1,B: HMM (underpowered),gross,Momentum 12-1 (long-short),71,3,-0.1817,-0.7076,-0.342,0.7321,0.0014
+holdout,12-1,B: HMM (underpowered),10bps,Momentum 12-1 (long-short),71,3,-0.2892,-0.7291,-0.352,0.7246,0.0015
+holdout,12-1,B: HMM (underpowered),20bps,Momentum 12-1 (long-short),71,3,-0.3967,-0.7507,-0.362,0.7171,0.0016
+holdout,12-1,B: HMM (underpowered),30bps,Momentum 12-1 (long-short),71,3,-0.5042,-0.7722,-0.372,0.7098,0.0017
+holdout,1w,A: realised vol (main),gross,Reversal 1w (long-short),313,5,0.2347,0.0359,0.102,0.9191,0.0001
+holdout,1w,A: realised vol (main),10bps,Reversal 1w (long-short),313,5,-0.0879,0.041,0.117,0.9069,0.0001
+holdout,1w,A: realised vol (main),20bps,Reversal 1w (long-short),313,5,-0.4105,0.046,0.133,0.8945,0.0001
+holdout,1w,A: realised vol (main),30bps,Reversal 1w (long-short),313,5,-0.733,0.0511,0.149,0.8819,0.0001
+holdout,1w,VIX (main robustness),gross,Reversal 1w (long-short),313,5,0.2458,0.0073,0.019,0.9852,0.0
+holdout,1w,VIX (main robustness),10bps,Reversal 1w (long-short),313,5,-0.0769,0.0133,0.034,0.9728,0.0
+holdout,1w,VIX (main robustness),20bps,Reversal 1w (long-short),313,5,-0.3997,0.0193,0.05,0.9601,0.0
+holdout,1w,VIX (main robustness),30bps,Reversal 1w (long-short),313,5,-0.7224,0.0253,0.066,0.9473,0.0
+holdout,1w,B: HMM (underpowered),gross,Reversal 1w (long-short),313,5,0.1231,1.3518,1.795,0.0727,0.0278
+holdout,1w,B: HMM (underpowered),10bps,Reversal 1w (long-short),313,5,-0.1975,1.3509,1.808,0.0706,0.0279
+holdout,1w,B: HMM (underpowered),20bps,Reversal 1w (long-short),313,5,-0.518,1.35,1.821,0.0686,0.028
+holdout,1w,B: HMM (underpowered),30bps,Reversal 1w (long-short),313,5,-0.8386,1.3491,1.835,0.0666,0.028
+holdout,2w,A: realised vol (main),gross,Reversal 2w (long-short),313,5,0.098,0.0391,0.142,0.8868,0.0001
+holdout,2w,A: realised vol (main),10bps,Reversal 2w (long-short),313,5,-0.1316,0.0366,0.135,0.8929,0.0001
+holdout,2w,A: realised vol (main),20bps,Reversal 2w (long-short),313,5,-0.3611,0.0341,0.127,0.8992,0.0
+holdout,2w,A: realised vol (main),30bps,Reversal 2w (long-short),313,5,-0.5907,0.0317,0.119,0.9056,0.0
+holdout,2w,VIX (main robustness),gross,Reversal 2w (long-short),313,5,0.1498,-0.1063,-0.347,0.7283,0.0004
+holdout,2w,VIX (main robustness),10bps,Reversal 2w (long-short),313,5,-0.0809,-0.1057,-0.348,0.7278,0.0004
+holdout,2w,VIX (main robustness),20bps,Reversal 2w (long-short),313,5,-0.3116,-0.105,-0.349,0.7273,0.0004
+holdout,2w,VIX (main robustness),30bps,Reversal 2w (long-short),313,5,-0.5423,-0.1044,-0.349,0.7269,0.0004
+holdout,2w,B: HMM (underpowered),gross,Reversal 2w (long-short),313,5,0.0145,1.0612,1.936,0.0528,0.0165
+holdout,2w,B: HMM (underpowered),10bps,Reversal 2w (long-short),313,5,-0.2159,1.0602,1.952,0.0509,0.0165
+holdout,2w,B: HMM (underpowered),20bps,Reversal 2w (long-short),313,5,-0.4463,1.0592,1.967,0.0491,0.0165
+holdout,2w,B: HMM (underpowered),30bps,Reversal 2w (long-short),313,5,-0.6767,1.0582,1.983,0.0474,0.0164
+holdout,1m,A: realised vol (main),gross,Reversal 1m (long-short),313,5,0.0332,0.0169,0.062,0.9508,0.0
+holdout,1m,A: realised vol (main),10bps,Reversal 1m (long-short),313,5,-0.1369,0.0223,0.082,0.9349,0.0
+holdout,1m,A: realised vol (main),20bps,Reversal 1m (long-short),313,5,-0.3071,0.0276,0.102,0.9189,0.0
+holdout,1m,A: realised vol (main),30bps,Reversal 1m (long-short),313,5,-0.4772,0.0329,0.122,0.9027,0.0
+holdout,1m,VIX (main robustness),gross,Reversal 1m (long-short),313,5,0.0155,0.0691,0.231,0.8173,0.0002
+holdout,1m,VIX (main robustness),10bps,Reversal 1m (long-short),313,5,-0.1538,0.0727,0.245,0.8062,0.0002
+holdout,1m,VIX (main robustness),20bps,Reversal 1m (long-short),313,5,-0.3232,0.0764,0.26,0.795,0.0002
+holdout,1m,VIX (main robustness),30bps,Reversal 1m (long-short),313,5,-0.4925,0.0801,0.274,0.7838,0.0003
+holdout,1m,B: HMM (underpowered),gross,Reversal 1m (long-short),313,5,-0.0094,0.5282,0.729,0.4659,0.0042
+holdout,1m,B: HMM (underpowered),10bps,Reversal 1m (long-short),313,5,-0.1772,0.5262,0.733,0.4635,0.0042
+holdout,1m,B: HMM (underpowered),20bps,Reversal 1m (long-short),313,5,-0.3451,0.5242,0.737,0.4611,0.0042
+holdout,1m,B: HMM (underpowered),30bps,Reversal 1m (long-short),313,5,-0.513,0.5222,0.741,0.4587,0.0041

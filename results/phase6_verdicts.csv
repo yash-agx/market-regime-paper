@@ -1,0 +1,6 @@
+pair,main_spec,insample_H3,insample_H3_p,insample_H3_p_holm,insample_verdict,holdout_H3,holdout_H3_p,holdout_verdict,crash_ratio_insample,crash_verdict
+mom 3-1 / rev 1w,False,2.5139,0.0174,0.0176,"same sign, weaker",0.2908,0.3906,agrees (fails to replicate),1.686,agrees
+mom 6-1 / rev 1w,False,1.9544,0.0046,0.0176,agrees,0.3006,0.4036,agrees (fails to replicate),1.389,differs (ratio 1.39)
+mom 12-1 / rev 1w,True,2.5432,0.0059,0.0176,agrees,1.192,0.2102,agrees (fails to replicate),2.003,agrees
+mom 12-1 / rev 2w,False,2.4429,0.0044,0.0176,agrees,1.1326,0.1397,agrees (fails to replicate),,n/a (momentum is the main 12-1)
+mom 12-1 / rev 1m,False,2.2746,0.0002,0.001,agrees,1.1094,0.1516,agrees (fails to replicate),,n/a (momentum is the main 12-1)

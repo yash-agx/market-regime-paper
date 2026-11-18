@@ -49,11 +49,21 @@ python -m src.run_phase5a                    # index changes -> point-in-time me
 python -m src.run_phase5b                    # membership coverage checks
 python -m src.run_phase4                     # evaluation and tests, in-sample 2010-2019
 python -m src.run_phase4 --holdout           # the held-out 2020-2025 period
+python -m src.run_phase6_robustness          # lookback robustness (3-1/6-1/12-1, 1w/2w/1m)
 ```
 
 `run_phase1` takes `--force` to re-download instead of using the cache. `run_phase4` takes
 `--universe v2` (point-in-time membership, the default and the headline) or `--universe v1`
 (today's members). The held-out period sits behind a flag on purpose.
+
+Phase 6 re-runs the whole pipeline with different signal lookbacks: momentum 3-1, 6-1 and 12-1
+months (skip month kept) and reversal 1 week, 2 weeks and 1 month (4 weeks, still traded weekly).
+The variants, statistics and verdict rules were written down in
+`docs/phase6_preregistration.md` and committed before anything was run. They are robustness
+checks, not new headline results. Outputs are `results/phase6_*.csv` and
+`results/phase6_tables.md`; the paper section is `paper/robustness_v2.md`. The run also checks
+that the 12-1 / 1-week pair reproduces the Phase 4 numbers exactly
+(`results/phase6_reproduction_check.csv`).
 
 Figures:
 
@@ -79,6 +89,8 @@ data/processed/
 src/         data, regimes, strategies, membership and evaluation code, plus phase entry points
 analysis/    one script per figure
 tests/       look-ahead and validation tests (pytest)
+docs/        pre-registration notes
+paper/       paper sections in markdown
 results/     every table as a CSV, every figure under results/figures/
 ```
 
